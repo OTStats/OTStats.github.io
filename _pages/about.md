@@ -4,7 +4,6 @@ title: "About"
 ---
 
 I'm a data anlayst at Metro Nashville Public Schools. My interests include statistics, data analysis, and programming in R.
-ceton.edu/qcbgrad/) from Princeton University.
 
 
 Links
