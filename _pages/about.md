@@ -3,6 +3,13 @@ permalink: /about/
 title: "About"
 ---
 
-Tempor velit sint sunt ipsum tempor enim ad qui ullamco. Est dolore anim ad velit duis dolore minim sunt aliquip amet commodo labore. Ut eu pariatur aute ea aute excepteur laborum. Esse ea esse excepteur minim mollit qui cillum excepteur ex dolore magna. Labore deserunt fugiat incididunt incididunt sint ea. Consequat dolore aute laboris quis proident quis non et est consectetur ex eiusmod sit culpa.
+I'm a data anlayst at Metro Nashville Public Schools. My interests include statistics, data analysis, and programming in R.
+ceton.edu/qcbgrad/) from Princeton University.
 
-Cupidatat ea do et in excepteur in. Ad nostrud ut est esse eu duis ea sunt eiusmod. Aliquip tempor veniam sint elit fugiat. Velit incididunt laboris amet incididunt labore dolore irure velit excepteur commodo deserunt laborum. Consectetur eu fugiat veniam veniam Lorem labore magna eiusmod. Ea occaecat reprehenderit pariatur consectetur minim labore ut aliquip.
+
+Links
+=====
+
+* [My GitHub](https://github.com/otstats)
+
+<a href="https://stackexchange.com/users/13063037"><img src="https://stackexchange.com/users/flair/13063037.png" width="208" height="58" alt="profile for OTStats on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for OTStats on Stack Exchange, a network of free, community-driven Q&amp;A sites"></a>
