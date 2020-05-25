@@ -1,3 +1,8 @@
+# Resources
+
+- [Quick Start Guide - Minimal Mistakes](https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/)
+- [Fun blogdown in R to design a personal webiste](https://annielyu.com/2020/01/12/blogdown-website/) (for if I ever descide to use `{blogdown}`)
+
 # Minimal Mistakes remote theme starter
 
 Click [**Use this template**](https://github.com/mmistakes/mm-github-pages-starter/generate) button above for the quickest method of getting started with the [Minimal Mistakes Jekyll theme](https://github.com/mmistakes/minimal-mistakes).
