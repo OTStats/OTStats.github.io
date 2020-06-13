@@ -13,7 +13,7 @@ This is Part II of building a function to plot manager Elo ratings. If you haven
 We left off with a graph of Manchester City's Elo rating since Pep Guardiola has been manager. 
 
 <p align = "center">
-  <img src = "/fig/2019-03-12-plot-manager-elo-part-1/Pep-ManCity-Elo.png">
+  <img src = "/figs/2019-03-12-plot-manager-elo-part-1/Pep-ManCity-Elo.png">
 </p>
 
 # Building a Function
@@ -169,23 +169,23 @@ In total our combined script looks like this:
 Now let's look at a few famous managers!
 
 <p align = "center">
-  <img src = "/fig/2019-03-13-plot-manager-elo-part-2/CarloAncelotti.png">
+  <img src = "/figs/2019-03-13-plot-manager-elo-part-2/CarloAncelotti.png">
 </p>
 
 <p align = "center">
-  <img src = "/fig/2019-03-13-plot-manager-elo-part-2/JuergenKlopp.png">
+  <img src = "/figs/2019-03-13-plot-manager-elo-part-2/JuergenKlopp.png">
 </p>
 
 <p align = "center">
-  <img src = "/fig/2019-03-13-plot-manager-elo-part-2/RafaBenitez.png">
+  <img src = "/figs/2019-03-13-plot-manager-elo-part-2/RafaBenitez.png">
 </p>
 
 <p align = "center">
-  <img src = "/fig/2019-03-13-plot-manager-elo-part-2/LouisvanGaal.png">
+  <img src = "/figs/2019-03-13-plot-manager-elo-part-2/LouisvanGaal.png">
 </p>
 
 <p align = "center">
-  <img src = "/fig/2019-03-13-plot-manager-elo-part-2/JuppHeynckes.png">
+  <img src = "/figs/2019-03-13-plot-manager-elo-part-2/JuppHeynckes.png">
 </p>
 
 # Next Steps
@@ -235,7 +235,7 @@ Ahh, we need to take into consideration special characters. We'll have to consid
 Thanks to the great R community on Twitter I stumbled across [Ryo Nakagawara's](https://twitter.com/R_by_Ryo) website, where he has published some [beautiful data visualizations](https://ryo-n7.github.io/visualizations/). He used a [similar method](https://gist.github.com/Ryo-N7/2067e6c63f66ca7a7039b114d51bd40d) as John to plot Juergen Klopp's managerial history and also added a few extra aesthetic annotations. I'd love to add labels in a similar method that Ryo used at the top of his plot. I'd also love to define club colors in some fashion. Nothing against the `ggplot`'s default color palette but I can't bear to see Real Madrid inherit green anymore. 
 
 <p align = "center">
-  <img src = "/fig/2019-03-13-plot-manager-elo-part-2/Ryo-Klopp.png">
+  <img src = "/figs/2019-03-13-plot-manager-elo-part-2/Ryo-Klopp.png">
 </p>
 
 # End: Part II

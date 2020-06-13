@@ -9,7 +9,7 @@ tags:
 Prior to managing Manchester United, José Mourinho had won the league in the second season with every club prior. The 2016-17 season saw Mourinho's United finish 6th in the league (United did however win the UEFA Europa league). Many expected José would do what he's always done in his second seasons with every club: adapt, dominate, become champions. Despite improving his side, United finished runners up to Pep Guardiola's unstoppable Manchester City. José undoubtedly improves his squads in two seasons however after that second season his sides taper off. [John Burn Murdoch](https://twitter.com/jburnmurdoch) shared a great article and data viz [on twitter](https://twitter.com/jburnmurdoch/status/1075071315487395840?ref_src=twsrc%5Etfw):
 
 <p align ="center">
-  <img src = "/fig/2019-03-12-plot-manager-elo-part-1/John-Murdoch-Jose-Mourinho-clubelo.png">
+  <img src = "/figs/2019-03-12-plot-manager-elo-part-1/John-Murdoch-Jose-Mourinho-clubelo.png">
 </p>
 
 I found this absolutely fascinating. Great article in the Financial Times and such a clean data viz. I've spent a decent amount of time on [ClubElo.com](http://clubelo.com) and yet I've never taken advantage of the public API. John generously shared the script he used for the graph, [available here](https://gist.github.com/johnburnmurdoch/1b3f32aaf7757733bd68a6513ab86226), and I wanted to write a function that could be generalized to see the Elo history of any manager.
@@ -17,7 +17,7 @@ I found this absolutely fascinating. Great article in the Financial Times and su
 The script was written specifically to Jose Mourinho's club history. There isn't an API call that extracts the Elo history for managers. So to recreate a graph like that below, it will take a little more work. Here is José Mourinho's page on ClubElo.
 
 <p align ="center">
-  <img src = "/fig/2019-03-12-plot-manager-elo-part-1/ClubElo-Jose-Mourinho.png">
+  <img src = "/figs/2019-03-12-plot-manager-elo-part-1/ClubElo-Jose-Mourinho.png">
 </p>
 
 # ClubElo
@@ -52,7 +52,7 @@ First, let's try to recreate the graph for another manager, this time without ma
 Let's look at Pep Guardiola - arguably the best manager in world football. If we look at his [Club Elo history](http://clubelo.com/PepGuardiola) we see that there is a table with his managerial history. 
 
 <p align = "center">
-  <img src = "/fig/2019-03-12-plot-manager-elo-part-1/Managerial-History-Pep-Guardiola.png">
+  <img src = "/figs/2019-03-12-plot-manager-elo-part-1/Managerial-History-Pep-Guardiola.png">
 </p>
 
 Let's start by getting this information into R using `rvest`. 
@@ -152,7 +152,7 @@ Let's plot our data:
 
 
 <p align = "center">
-  <img src = "/fig/2019-03-12-plot-manager-elo-part-1/Pep-ManCity-Elo.png">
+  <img src = "/figs/2019-03-12-plot-manager-elo-part-1/Pep-ManCity-Elo.png">
 </p>
 
 

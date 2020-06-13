@@ -11,7 +11,7 @@ tags:
 I played four years of college soccer at the University of Wisconsin-Whitewater. After I graduated in 2017 I was always interested in exploring how well the team performed while I was a member of the program. 
 About a year ago, I manually _scraped_ the [men's soccer homepage](https://uwwsports.com/schedule.aspx?path=msoc&) on the UWW Athletics website. Copy and pasting scores, game locations, and results into a Google Sheet... 
 
-![](/fig/2018-12-06-uww-soccer/UWW_Results_Screenshot.png)  
+![](/figs/2018-12-06-uww-soccer/UWW_Results_Screenshot.png)  
 
 I spent hours switching between screens copy and pasting data these data... The following process took me a half hour to get the exact same data.
 
@@ -26,7 +26,7 @@ Questions I wanted to investigate:
 ## Accessing the data... the right way. 
 In order to scrape game results, we need the data in a digestible format. I found the [Men's Soccer Archives](https://uwwsports.com/sports/2009/9/9/sidebar_432.aspx?path=msoc) to be most helpful, with data in html format. 
 
-![](/fig/2018-12-06-uww-soccer/Screenshot-2018-12-05-019.32.56.png)
+![](/figs/2018-12-06-uww-soccer/Screenshot-2018-12-05-019.32.56.png)
 
 ## Let R do the work
     library(rvest)                # Web scraping
