@@ -1,0 +1,21 @@
+---
+title: "TIL: Useful R packages for analysis"
+date: 2020-07-13
+category: r
+tags: [r]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
+```
+
+# TIL (Today I Learned)
+
+I'll preface by saying that I didn't learn these tricks today, but I've used a lot over the case of quarantine.
+
+### `{beepr}`
+
+### `{pacman}`
+
+### `{tictoc}`
+
