@@ -9,9 +9,8 @@ tags: [r]
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
 ```
 
-# TIL (Today I Learned)
 
-I'll preface by saying that I didn't learn these tricks today, but I've used a lot over the case of quarantine.
+This week [RWeekly](https://rweekly.org/) featured Erin Grand's post: [Twitter's Favorite Lesser Known Packages](https://eringrand.github.io/fave_r_functions/). It was great to see packages/functions that R-users have found to be useful. I was inspired to share a few of my favorites.
 
 ### `{beepr}`
 
