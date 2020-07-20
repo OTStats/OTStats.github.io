@@ -1,0 +1,138 @@
+---
+title: "2019-20 La Liga Table"
+author: "Owen Thompson"
+date: "7/19/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Today was the final matchday of the 2019/20 La Liga season. Real Madrid claimed their 34th La Liga title, Atleti qualify for the UCL for the 8th consecutive season, ...
+
+Let's sum up this season with some data cleaning 
+
+***
+
+There are plenty of quality resources online demonstrating how to clean match fixtures to create a league tables for completed soccer seasons:
+
+- https://en.wikipedia.org/wiki/2017%E2%80%9318_La_Liga#cite_note-table_hth_ESP0.48481848113463-92
+- https://www.goal.com/en-us/news/goal-difference-or-head-to-head-how-every-major-football/1jax9vfriz1xs13jkdpf9qzhjo
+- https://rpubs.com/jalapic/laliga
+- http://opisthokonta.net/?p=18
+
+While these are great examples of how to create a generic league table, La Liga has unique tie-break rules for teams that end the season level on points. The examples that I shared above resort to manually editing teams' final league positions. I wanted to come up with a systematic approach using the specific tie-breaking rules for La Liga to create a final league table for any La Liga season.
+
+For this analysis I accessed FiveThirtyEight's SPI matches data. 
+```{r message=FALSE}
+# Load Packages
+library(tidyverse)
+
+# Read Data
+spi_raw <- read_csv("https://projects.fivethirtyeight.com/soccer-api/club/spi_matches.csv")
+
+glimpse(spi_raw)
+```
+
+This data is fantastic. Each observation includes a match date, league id's, team names, team SPIs, teams' likelihood of winning, as well as xG/NSxG for each team. In order to make this data more useful, I've used the following cleaning steps to provide a "tidy" table. 
+
+
+```{r}
+matches <- spi_raw %>% 
+  transmute(date, 
+            league, 
+            league_id, 
+            team = team1, 
+            opponent = team2, 
+            teamGoal = score1, 
+            oppGoal = score2, 
+            result = case_when(score1 > score2  ~ "W", 
+                               score1 < score2  ~ "L", 
+                               score1 == score2 ~ "D"), 
+            ha = "Home") %>% 
+  bind_rows(
+    spi_raw %>% 
+      transmute(date, 
+                league, 
+                league_id, 
+                team = team2, 
+                opponent = team1, 
+                teamGoal = score2, 
+                oppGoal = score1, 
+                result = case_when(score1 < score2  ~ "W", 
+                                   score1 > score2  ~ "L", 
+                                   score1 == score2 ~ "D"), 
+                ha = "Away")) %>% 
+  mutate(game_goal_diff = teamGoal - oppGoal) %>% 
+  mutate(result_points = case_when(result == "W" ~ 3, 
+                                   result == "D" ~ 1, 
+                                   TRUE ~ 0))
+
+glimpse(matches)
+```
+
+We now have a two observations per team, per match. We now can think observation from the perspective of a team, now with details about whether the match was played home or away (`ha`), the team's opponent, goals for and against, and the result of the match. I also included a field for team's goal differential for the game (`game_goal_diff`). 
+
+One thing that 538 doesn't include is a variable for season, so we'll have to filter to include only matches played for this season and for La Liga (which has the league id 1869). 
+
+```{r}
+## Filter to only include this La Liga season
+liga <- matches %>% 
+  filter(league_id == 1869, between(date, as.Date("2019-08-15"), as.Date("2020-07-20")))
+
+```
+
+Let's now create a traditional league table for the end of the season:
+
+```{r}
+table_1 <- liga %>% 
+  group_by(team) %>% 
+  summarise(MP = n(), 
+            W = sum(result == "W"), 
+            D = sum(result == "D"), 
+            L = sum(result == "L"), 
+            GF = sum(teamGoal), 
+            GA = sum(oppGoal), 
+            GD = GF - GA, 
+            Pts = sum(result_points)) %>% 
+  arrange(desc(Pts))
+
+table_1
+```
+
+Looking good! But as I noted before, the tie-breaking rules for La Liga are unique. In other leagues around the world (e.g. the English Premier League), goal difference is the primary tie-breaker, however in Spain the first tie breaker is head-to-head results for teams with the same number of points. For example, if Valencia and Levante were to level on points but Valencia managed to beat Levante in both fixtures, Valencia would beat Levante head-to-head. Here's the full breakdown for league classification:
+
+> Rules for classification: 1) Points; 2) Head-to-head points; 3) Head-to-head goal difference; 4) Goal difference; 5) Goals scored; 6) Fair-play points (Note: Head-to-head record is used only after all the matches between the teams in question have been played)^[2]
+
+
+```{r}
+team_ties <- table_1 %>% 
+  group_by(Pts) %>% 
+  filter(n() > 1) %>% 
+  mutate(id = cur_group_id()) %>% 
+  ungroup() %>% 
+  select(team, id)
+
+tie_break_table <- team_ties %>% 
+  rename(team_id = id) %>% 
+  inner_join(liga_matches, by = "team") %>% 
+  inner_join(team_ties %>% rename(opponent = team, opponent_id = id), by = "opponent") %>% 
+  filter(team_id == opponent_id) %>% 
+  mutate(game_goal_diff = teamGoal - oppGoal) %>% 
+  group_by(team_id, team) %>% 
+  summarise(tie_break_pts = sum(result_points), 
+            tie_break_gd = sum(game_goal_diff), 
+            .groups = "drop") %>% 
+  arrange(team_id, tie_break_pts, tie_break_gd) %>% 
+  select(team, tie_break_pts, tie_break_gd)
+
+table_1 %>% 
+  left_join(tie_break_table, by = "team") %>% 
+  arrange(desc(Pts), desc(tie_break_pts), desc(tie_break_gd), desc(GD), desc(GF)) %>% 
+  mutate(rank = row_number()) %>% 
+  select(rank, everything(), -tie_break_pts, -tie_break_gd, )
+
+```
+
+
