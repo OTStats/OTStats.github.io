@@ -1,0 +1,36 @@
+---
+title: "SQLite DB in R"
+date: 2020-07-22
+category: r
+tags: [r]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+# ---- Load libraries
+library(tidyverse)
+library(dbplyr)
+library(RSQLite)
+
+db <- "my-db.sqlite"
+conn <- dbConnect(drv = SQLite(), dbname = db)
+
+# Write data to connection
+dbWriteTable(conn, "cars", mtcars)
+
+# View tables in connection
+src_dbi(conn)
+
+# # Disconnect from DB
+DBI::dbDisconnect(conn)
+
+# --- Other commands
+# copy_to(my_db, plots)
+# dbRemoveTable(conn, "sqlite_stat4")
+# copy_to(conn, demo)
+```
+
