@@ -1,8 +1,8 @@
 ---
-title: "2019-20 La Liga Table"
-author: "Owen Thompson"
-date: "7/19/2020"
-output: html_document
+title: "TIL: Useful R packages for analysis"
+date: 2020-07-13
+category: r
+tags: [r, football]
 ---
 
 ```{r setup, include=FALSE}
@@ -25,7 +25,7 @@ There are plenty of quality resources online demonstrating how to clean match fi
 While these are great examples of how to create a generic league table, La Liga has unique tie-break rules for teams that end the season level on points. The examples that I shared above resort to manually editing teams' final league positions. I wanted to come up with a systematic approach using the specific tie-breaking rules for La Liga to create a final league table for any La Liga season.
 
 For this analysis I accessed FiveThirtyEight's SPI matches data. 
-```{r message=FALSE}
+```{r message=FALSE, warning=FALSE}
 # Load Packages
 library(tidyverse)
 
@@ -38,7 +38,7 @@ glimpse(spi_raw)
 This data is fantastic. Each observation includes a match date, league id's, team names, team SPIs, teams' likelihood of winning, as well as xG/NSxG for each team. In order to make this data more useful, I've used the following cleaning steps to provide a "tidy" table. 
 
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 matches <- spi_raw %>% 
   transmute(date, 
             league, 
@@ -85,7 +85,7 @@ liga <- matches %>%
 
 Let's now create a traditional league table for the end of the season:
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 table_1 <- liga %>% 
   group_by(team) %>% 
   summarise(MP = n(), 
@@ -105,8 +105,16 @@ Looking good! But as I noted before, the tie-breaking rules for La Liga are uniq
 
 > Rules for classification: 1) Points; 2) Head-to-head points; 3) Head-to-head goal difference; 4) Goal difference; 5) Goals scored; 6) Fair-play points (Note: Head-to-head record is used only after all the matches between the teams in question have been played)^[2]
 
+This season there are a few teams that ended with the same number of points:
+* 60pts: Atleti and Sevilla
+* 56pts: Granda and La Real
+* 42pts: Eibar and Valladolid
 
-```{r}
+I'll deal with these tie-breaks by considering teams with the same number of points as a group, and creating a mini league table for each group, providing teams with a rank within their group, and joining the mini league table back to the main league table.
+
+```{r message=FALSE, warning=FALSE}
+# Table with all teams level on points, with an id unique to teams 
+# with the same final point total
 team_ties <- table_1 %>% 
   group_by(Pts) %>% 
   filter(n() > 1) %>% 
@@ -114,9 +122,65 @@ team_ties <- table_1 %>%
   ungroup() %>% 
   select(team, id)
 
+team_ties
+```
+
+In these steps, we'll filter for only matches where teams within the same points-group are playing each other. In other words we're looking for the two matches Atleti and Sevilla played each other, the two matches between Granda and La Real, and the two matches between Eibar and Valladolid. After we have matches, we'll summarise points and goal differential by the points-group.
+
+```{r message=FALSE, warning=FALSE}
 tie_break_table <- team_ties %>% 
   rename(team_id = id) %>% 
-  inner_join(liga_matches, by = "team") %>% 
+  inner_join(liga, by = "team") %>% 
+  inner_join(team_ties %>% rename(opponent = team, opponent_id = id), by = "opponent") %>% 
+  filter(team_id == opponent_id) %>% 
+  mutate(game_goal_diff = teamGoal - oppGoal) %>% 
+  group_by(team_id, team) %>% 
+  summarise(tie_break_pts = sum(result_points), 
+            tie_break_gd = sum(game_goal_diff), 
+            .groups = "drop") %>% 
+  arrange(team_id, tie_break_pts, tie_break_gd) %>% 
+  select(team, tie_break_pts, tie_break_gd)
+```
+
+Finally, we join the tie-break table to the final table, arrange the teams by the sort criteria, and remove unnecessary columns.
+
+```{r message=FALSE, warning=FALSE}
+final_table <- table_1 %>% 
+  left_join(tie_break_table, by = "team") %>% 
+  arrange(desc(Pts), desc(tie_break_pts), desc(tie_break_gd), desc(GD), desc(GF)) %>% 
+  mutate(Rank = row_number()) %>% 
+  select(Rank, everything(), -tie_break_pts, -tie_break_gd)
+
+final_table
+```
+
+Venga vamos! Tenemos la final tabla de la temporada! We have a final league table for the season. Now what's the use doing this once? Let's create a function that matches for a La Liga season and produces the end of season league table.
+
+```{r message=FALSE, warning=FALSE}
+la_liga_table <- function(matches){
+table_1 = matches %>% 
+  group_by(team) %>% 
+  summarise(MP = n(), 
+            W = sum(result == "W"), 
+            D = sum(result == "D"), 
+            L = sum(result == "L"), 
+            GF = sum(teamGoal), 
+            GA = sum(oppGoal), 
+            GD = GF - GA, 
+            Pts = sum(result_points)) %>% 
+  arrange(desc(Pts))
+
+
+team_ties <- table_1 %>% 
+  group_by(Pts) %>% 
+  filter(n() > 1) %>% 
+  mutate(id = cur_group_id()) %>% 
+  ungroup() %>% 
+  select(team, id)
+
+tie_break_table = team_ties %>% 
+  rename(team_id = id) %>% 
+  inner_join(matches, by = "team") %>% 
   inner_join(team_ties %>% rename(opponent = team, opponent_id = id), by = "opponent") %>% 
   filter(team_id == opponent_id) %>% 
   mutate(game_goal_diff = teamGoal - oppGoal) %>% 
@@ -127,12 +191,29 @@ tie_break_table <- team_ties %>%
   arrange(team_id, tie_break_pts, tie_break_gd) %>% 
   select(team, tie_break_pts, tie_break_gd)
 
-table_1 %>% 
+final_table = table_1 %>% 
   left_join(tie_break_table, by = "team") %>% 
   arrange(desc(Pts), desc(tie_break_pts), desc(tie_break_gd), desc(GD), desc(GF)) %>% 
-  mutate(rank = row_number()) %>% 
-  select(rank, everything(), -tie_break_pts, -tie_break_gd, )
+  mutate(Rank = row_number()) %>% 
+  select(Rank, everything(), -tie_break_pts, -tie_break_gd)
 
+return(final_table)
+}
 ```
 
+Let's test it for the 2017/18 La Liga season:
 
+```{r message=FALSE, warning=FALSE}
+## Filter to only include the 2017-18 La Liga Season
+liga_2017 <- matches %>% 
+  filter(league_id == "1869", date >= as.Date("2017-07-31") & date < as.Date("2018-07-31"))
+
+cat("2017/18 La Liga Table")
+la_liga_table(liga_2017)
+```
+
+Ahh, there was a unique case this year where three teams finished with 49 points; and by checking the final league table our function handled these ties correctly. I'm already looking forward to the next La Liga season.
+
+***
+
+I didn't address the final tie-breaker: fair-play points. This would take a little more time to incorporate seeing as 538 doesn't include data on discipline (yellow/red cards, fouls, etc).
