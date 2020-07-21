@@ -1,5 +1,5 @@
 ---
-title: "TIL: Useful R packages for analysis"
+title: "2020 La Liga Table"
 date: 2020-07-13
 category: r
 tags: [r, football]
@@ -7,18 +7,16 @@ tags: [r, football]
 
 
 
-Today was the final matchday of the 2019/20 La Liga season. Real Madrid claimed their 34th La Liga title, Atleti qualify for the UCL for the 8th consecutive season, ...
+Yesterday was the final matchday of the 2019/20 La Liga season. Real Madrid claimed their 34th La Liga title, Atleti qualify for the UCL for the 8th consecutive season, and Espanyol are back to la Segunda after 27 seasons in Spain's top-flight.
 
-Let's sum up this season with some data cleaning 
 
 ***
 
+Let's sum up this season with some data cleaning 
 There are plenty of quality resources online demonstrating how to clean match fixtures to create a league tables for completed soccer seasons:
 
-- https://en.wikipedia.org/wiki/2017%E2%80%9318_La_Liga#cite_note-table_hth_ESP0.48481848113463-92
-- https://www.goal.com/en-us/news/goal-difference-or-head-to-head-how-every-major-football/1jax9vfriz1xs13jkdpf9qzhjo
-- https://rpubs.com/jalapic/laliga
-- http://opisthokonta.net/?p=18
+- James Curleys: [Spanish La Liga Dataset](https://rpubs.com/jalapic/laliga)
+- Jona's (aka Opisthokonta) blog: [R functions for soccer league tables and result matrix](http://opisthokonta.net/?p=18)
 
 While these are great examples of how to create a generic league table, La Liga has unique tie-break rules for teams that end the season level on points. The examples that I shared above resort to manually editing teams' final league positions. I wanted to come up with a systematic approach using the specific tie-breaking rules for La Liga to create a final league table for any La Liga season.
 
@@ -39,29 +37,29 @@ glimpse(spi_raw)
 {% highlight text %}
 ## Rows: 34,269
 ## Columns: 23
-## $ season      [3m[38;5;246m<dbl>[39m[23m 2016, 2016, 2016, 2016, 2016, 2016, 2016, 2016, 2016, 20…
-## $ date        [3m[38;5;246m<date>[39m[23m 2016-08-12, 2016-08-12, 2016-08-13, 2016-08-13, 2016-08…
-## $ league_id   [3m[38;5;246m<dbl>[39m[23m 1843, 1843, 2411, 2411, 2411, 2411, 2411, 2411, 1843, 24…
-## $ league      [3m[38;5;246m<chr>[39m[23m "French Ligue 1", "French Ligue 1", "Barclays Premier Le…
-## $ team1       [3m[38;5;246m<chr>[39m[23m "Bastia", "AS Monaco", "Hull City", "Middlesbrough", "Bu…
-## $ team2       [3m[38;5;246m<chr>[39m[23m "Paris Saint-Germain", "Guingamp", "Leicester City", "St…
-## $ spi1        [3m[38;5;246m<dbl>[39m[23m 51.16, 68.85, 53.57, 56.32, 58.98, 69.49, 68.02, 55.19, …
-## $ spi2        [3m[38;5;246m<dbl>[39m[23m 85.68, 56.48, 66.81, 60.35, 59.74, 59.33, 73.25, 58.66, …
-## $ prob1       [3m[38;5;246m<dbl>[39m[23m 0.0463, 0.5714, 0.3459, 0.4380, 0.4482, 0.5759, 0.3910, …
-## $ prob2       [3m[38;5;246m<dbl>[39m[23m 0.8380, 0.1669, 0.3621, 0.2692, 0.2663, 0.1874, 0.3401, …
-## $ probtie     [3m[38;5;246m<dbl>[39m[23m 0.1157, 0.2617, 0.2921, 0.2927, 0.2854, 0.2367, 0.2689, …
-## $ proj_score1 [3m[38;5;246m<dbl>[39m[23m 0.91, 1.82, 1.16, 1.30, 1.37, 1.91, 1.47, 1.35, 1.39, 2.…
-## $ proj_score2 [3m[38;5;246m<dbl>[39m[23m 2.36, 0.86, 1.24, 1.01, 1.05, 1.05, 1.38, 1.14, 1.14, 0.…
-## $ importance1 [3m[38;5;246m<dbl>[39m[23m 32.4, 53.7, 38.1, 33.9, 36.5, 34.1, 31.9, 43.6, 37.9, 73…
-## $ importance2 [3m[38;5;246m<dbl>[39m[23m 67.7, 22.9, 22.2, 32.5, 29.1, 30.7, 48.0, 34.6, 44.2, 27…
-## $ score1      [3m[38;5;246m<dbl>[39m[23m 0, 2, 2, 1, 0, 1, 1, 0, 3, 2, 1, 0, 3, 3, 1, 0, 3, 1, 0,…
-## $ score2      [3m[38;5;246m<dbl>[39m[23m 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 0, 1, 2, 2, 3, 3, 4, 0, 0,…
-## $ xg1         [3m[38;5;246m<dbl>[39m[23m 0.97, 2.45, 0.85, 1.40, 1.24, 1.05, 0.73, 1.11, 1.03, 2.…
-## $ xg2         [3m[38;5;246m<dbl>[39m[23m 0.63, 0.77, 2.77, 0.55, 1.84, 0.22, 1.11, 0.68, 1.84, 1.…
-## $ nsxg1       [3m[38;5;246m<dbl>[39m[23m 0.43, 1.75, 0.17, 1.13, 1.71, 1.52, 0.88, 0.84, 1.10, 1.…
-## $ nsxg2       [3m[38;5;246m<dbl>[39m[23m 0.45, 0.42, 1.25, 1.06, 1.56, 0.41, 1.81, 1.60, 2.26, 0.…
-## $ adj_score1  [3m[38;5;246m<dbl>[39m[23m 0.00, 2.10, 2.10, 1.05, 0.00, 1.05, 1.05, 0.00, 3.12, 2.…
-## $ adj_score2  [3m[38;5;246m<dbl>[39m[23m 1.05, 2.10, 1.05, 1.05, 1.05, 1.05, 1.05, 1.05, 2.10, 1.…
+## $ season      <dbl> 2016, 2016, 2016, 2016, 2016, 2016, 2016, 2016, 2016, 20…
+## $ date        <date> 2016-08-12, 2016-08-12, 2016-08-13, 2016-08-13, 2016-08…
+## $ league_id   <dbl> 1843, 1843, 2411, 2411, 2411, 2411, 2411, 2411, 1843, 24…
+## $ league      <chr> "French Ligue 1", "French Ligue 1", "Barclays Premier Le…
+## $ team1       <chr> "Bastia", "AS Monaco", "Hull City", "Middlesbrough", "Bu…
+## $ team2       <chr> "Paris Saint-Germain", "Guingamp", "Leicester City", "St…
+## $ spi1        <dbl> 51.16, 68.85, 53.57, 56.32, 58.98, 69.49, 68.02, 55.19, …
+## $ spi2        <dbl> 85.68, 56.48, 66.81, 60.35, 59.74, 59.33, 73.25, 58.66, …
+## $ prob1       <dbl> 0.0463, 0.5714, 0.3459, 0.4380, 0.4482, 0.5759, 0.3910, …
+## $ prob2       <dbl> 0.8380, 0.1669, 0.3621, 0.2692, 0.2663, 0.1874, 0.3401, …
+## $ probtie     <dbl> 0.1157, 0.2617, 0.2921, 0.2927, 0.2854, 0.2367, 0.2689, …
+## $ proj_score1 <dbl> 0.91, 1.82, 1.16, 1.30, 1.37, 1.91, 1.47, 1.35, 1.39, 2.…
+## $ proj_score2 <dbl> 2.36, 0.86, 1.24, 1.01, 1.05, 1.05, 1.38, 1.14, 1.14, 0.…
+## $ importance1 <dbl> 32.4, 53.7, 38.1, 33.9, 36.5, 34.1, 31.9, 43.6, 37.9, 73…
+## $ importance2 <dbl> 67.7, 22.9, 22.2, 32.5, 29.1, 30.7, 48.0, 34.6, 44.2, 27…
+## $ score1      <dbl> 0, 2, 2, 1, 0, 1, 1, 0, 3, 2, 1, 0, 3, 3, 1, 0, 3, 1, 0,…
+## $ score2      <dbl> 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 0, 1, 2, 2, 3, 3, 4, 0, 0,…
+## $ xg1         <dbl> 0.97, 2.45, 0.85, 1.40, 1.24, 1.05, 0.73, 1.11, 1.03, 2.…
+## $ xg2         <dbl> 0.63, 0.77, 2.77, 0.55, 1.84, 0.22, 1.11, 0.68, 1.84, 1.…
+## $ nsxg1       <dbl> 0.43, 1.75, 0.17, 1.13, 1.71, 1.52, 0.88, 0.84, 1.10, 1.…
+## $ nsxg2       <dbl> 0.45, 0.42, 1.25, 1.06, 1.56, 0.41, 1.81, 1.60, 2.26, 0.…
+## $ adj_score1  <dbl> 0.00, 2.10, 2.10, 1.05, 0.00, 1.05, 1.05, 0.00, 3.12, 2.…
+## $ adj_score2  <dbl> 1.05, 2.10, 1.05, 1.05, 1.05, 1.05, 1.05, 1.05, 2.10, 1.…
 {% endhighlight %}
 
 This data is fantastic. Each observation includes a match date, league id's, team names, team SPIs, teams' likelihood of winning, as well as xG/NSxG for each team. In order to make this data more useful, I've used the following cleaning steps to provide a "tidy" table. 
@@ -107,17 +105,17 @@ glimpse(matches)
 {% highlight text %}
 ## Rows: 68,538
 ## Columns: 11
-## $ date           [3m[38;5;246m<date>[39m[23m 2016-08-12, 2016-08-12, 2016-08-13, 2016-08-13, 2016…
-## $ league         [3m[38;5;246m<chr>[39m[23m "French Ligue 1", "French Ligue 1", "Barclays Premier…
-## $ league_id      [3m[38;5;246m<dbl>[39m[23m 1843, 1843, 2411, 2411, 2411, 2411, 2411, 2411, 1843,…
-## $ team           [3m[38;5;246m<chr>[39m[23m "Bastia", "AS Monaco", "Hull City", "Middlesbrough", …
-## $ opponent       [3m[38;5;246m<chr>[39m[23m "Paris Saint-Germain", "Guingamp", "Leicester City", …
-## $ teamGoal       [3m[38;5;246m<dbl>[39m[23m 0, 2, 2, 1, 0, 1, 1, 0, 3, 2, 1, 0, 3, 3, 1, 0, 3, 1,…
-## $ oppGoal        [3m[38;5;246m<dbl>[39m[23m 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 0, 1, 2, 2, 3, 3, 4, 0,…
-## $ result         [3m[38;5;246m<chr>[39m[23m "L", "D", "W", "D", "L", "D", "D", "L", "W", "W", "W"…
-## $ ha             [3m[38;5;246m<chr>[39m[23m "Home", "Home", "Home", "Home", "Home", "Home", "Home…
-## $ game_goal_diff [3m[38;5;246m<dbl>[39m[23m -1, 0, 1, 0, -1, 0, 0, -1, 1, 1, 1, -1, 1, 1, -2, -3,…
-## $ result_points  [3m[38;5;246m<dbl>[39m[23m 0, 1, 3, 1, 0, 1, 1, 0, 3, 3, 3, 0, 3, 3, 0, 0, 0, 3,…
+## $ date           <date> 2016-08-12, 2016-08-12, 2016-08-13, 2016-08-13, 2016…
+## $ league         <chr> "French Ligue 1", "French Ligue 1", "Barclays Premier…
+## $ league_id      <dbl> 1843, 1843, 2411, 2411, 2411, 2411, 2411, 2411, 1843,…
+## $ team           <chr> "Bastia", "AS Monaco", "Hull City", "Middlesbrough", …
+## $ opponent       <chr> "Paris Saint-Germain", "Guingamp", "Leicester City", …
+## $ teamGoal       <dbl> 0, 2, 2, 1, 0, 1, 1, 0, 3, 2, 1, 0, 3, 3, 1, 0, 3, 1,…
+## $ oppGoal        <dbl> 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 0, 1, 2, 2, 3, 3, 4, 0,…
+## $ result         <chr> "L", "D", "W", "D", "L", "D", "D", "L", "W", "W", "W"…
+## $ ha             <chr> "Home", "Home", "Home", "Home", "Home", "Home", "Home…
+## $ game_goal_diff <dbl> -1, 0, 1, 0, -1, 0, 0, -1, 1, 1, 1, -1, 1, 1, -2, -3,…
+## $ result_points  <dbl> 0, 1, 3, 1, 0, 1, 1, 0, 3, 3, 3, 0, 3, 3, 0, 0, 0, 3,…
 {% endhighlight %}
 
 We now have a two observations per team, per match. We now can think observation from the perspective of a team, now with details about whether the match was played home or away (`ha`), the team's opponent, goals for and against, and the result of the match. I also included a field for team's goal differential for the game (`game_goal_diff`). 
