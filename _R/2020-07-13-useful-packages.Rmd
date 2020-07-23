@@ -1,5 +1,5 @@
 ---
-title: "TIL: Useful R packages for analysis"
+title: "beepr, pacman, tictoc: My favorite lesser known R packages"
 date: 2020-07-13
 category: r
 tags: [r]
@@ -9,12 +9,26 @@ tags: [r]
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
 ```
 
-
-This week [RWeekly](https://rweekly.org/) featured Erin Grand's post: [Twitter's Favorite Lesser Known Packages](https://eringrand.github.io/fave_r_functions/). It was great to see packages/functions that R-users have found to be useful. I was inspired to share a few of my favorites.
+A few week's ago, [RWeekly](https://rweekly.org/) featured Erin Grand's post: [Twitter's Favorite Lesser Known Packages](https://eringrand.github.io/fave_r_functions/). 
+There was a plethora of responses where R-users packages/functions that they have found to be useful. I was inspired to and wanted to share a few of my favorites.
 
 ### `{beepr}`
 
+One of my favorite R packages actually only has two functions. `beepr` is a package that plays notification sounds. I often add `beep()` to the end of long scripts and jobs running in the background. Instead of checking my RStudio session every so often I can simply wait for my computer to *ping*. 
+
+Actually, on a few occasions I've used R as a timer:
+```
+library(beepr)
+
+# Set a one minute timer
+Sys.sleep(60); beep()
+```
+
+Of course, there are other packages with similar utility. [This StackOverflow question](https://stackoverflow.com/questions/3365657/is-there-a-way-to-make-r-beep-play-a-sound-at-the-end-of-a-script) includes various other packages, functions, and snippets that provide different notification methods.
+
 ### `{pacman}`
+
+`pacman` is a package that I found courtesy of John Burn-Murdoch. 
 
 ### `{tictoc}`
 
