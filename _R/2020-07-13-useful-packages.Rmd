@@ -30,5 +30,32 @@ Of course, there are other packages with similar utility. [This StackOverflow qu
 
 `pacman` is a package that I found courtesy of John Burn-Murdoch. 
 
+The package has many useful functions, but I have found the most use out of `p_load()`. `p_load` is a wrapper function for base functions `library` and `require`. Instead of starting a script with `install.packages()` and a long list of `library()` commands, `p_load()` checks to see if the packages are installed, and attempts to install those that aren't already from CRAN.
+
+As an example, I could replace this:
+```
+# Install Packages
+install.packages(c("dplyr", "tidyr", "forcats", "readr", "ggplot2", "lubridate"))
+
+# Load libraries
+library(dplyr)
+library(tidyr)
+library(forcats)
+library(readr)
+library(ggplot2)
+library(lubridate)
+```
+
+With this:
+```
+# Install pacman, if necessary
+if(!require(pacman)) install.packages("pacman")
+
+pacman::p_load(dplyr, tidyr, forcats, readr, ggplot2, lubridate)
+```
+
 ### `{tictoc}`
+
+Finally, `tictoc` is a package I came across online recently. [Jumping Rivers gave a demo](https://www.jumpingrivers.com/blog/timing-in-r/) of how to time code. 
+
 
