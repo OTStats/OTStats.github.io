@@ -87,12 +87,12 @@ Let's now create a traditional league table for the end of the season:
 table_1 <- liga %>% 
   group_by(team) %>% 
   summarise(MP = n(), 
-            `Record (W-D-L)` = str_c(sum(result == "W"), 
-                                     sum(result == "D"), 
-                                     sum(result == "L"), 
-                                     sep = "-"), 
-            `GF-GA` = str_c(sum(teamGoal), sum(oppGoal), sep = "-"),  
-            GD = sum(teamGoal) - sum(oppGoal), 
+            W = sum(result == "W"), 
+            D = sum(result == "D"), 
+            L = sum(result == "L"), 
+            GF = sum(teamGoal), 
+            GA = sum(oppGoal),  
+            GD = GF - GA, 
             Pts = sum(result_points)) %>% 
   arrange(desc(Pts))
 
@@ -159,17 +159,15 @@ la_liga_table <- function(matches){
   table_1 = matches %>% 
     group_by(team) %>% 
     summarise(MP = n(), 
-              summarise(MP = n(), 
-                        `Record (W-D-L)` = str_c(sum(result == "W"), 
-                                                 sum(result == "D"), 
-                                                 sum(result == "L"), 
-                                                 sep = "-"), 
-                        `GF-GA` = str_c(sum(teamGoal), sum(oppGoal), sep = "-"),  
-                        GD = sum(teamGoal) - sum(oppGoal), 
-                        Pts = sum(result_points)) %>% 
-                Pts = sum(result_points)) %>% 
-    arrange(desc(Pts))
-  
+              W = sum(result == "W"), 
+              D = sum(result == "D"), 
+              L = sum(result == "L"), 
+              GF = sum(teamGoal), 
+              GA = sum(oppGoal),  
+              GD = GF - GA, 
+              Pts = sum(result_points)) %>% 
+  arrange(desc(Pts))
+
   
   team_ties = table_1 %>% 
     group_by(Pts) %>% 
