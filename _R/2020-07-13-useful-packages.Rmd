@@ -56,6 +56,52 @@ pacman::p_load(dplyr, tidyr, forcats, readr, ggplot2, lubridate)
 
 ### `{tictoc}`
 
-Finally, `tictoc` is a package I came across online recently. [Jumping Rivers gave a demo](https://www.jumpingrivers.com/blog/timing-in-r/) of how to time code. 
+Finally, `tictoc` is a package I came across online only recently. `tictoc` provides timing functions that can be nested in code. I'm getting used to using timing utilities in my code, but for now I've found the simplest application is adding `tic` and `toc` to sections of my code:
 
+``` r
+# ---- Load library
+library(tictoc)
 
+# ---- Import data
+tic("Section 1")
+print("Import data... readr... readxl... RSQLite...")
+Sys.sleep(3)
+toc(log = TRUE)
+#> Section 1: 3.02 sec elapsed
+
+# ---- Data cleaning
+tic("Section 2")
+print("Data munging, manipulation, dplyr, mutate, etc.")
+Sys.sleep(2.5)
+toc(log = TRUE)
+#> Section 2: 2.51 sec elapsed
+
+# ---- Data viz
+tic("Section 3")
+print("Something with ggplot2")
+Sys.sleep(1)
+toc(log = TRUE)
+#> Section 3: 1.01 sec elapsed
+
+# View tic log summary
+# What sections took the longest?
+tic.log()
+#> [[1]]
+#> [1] "Section 1: 3 sec elapsed"
+#> 
+#> [[2]]
+#> [1] "Section 2: 2.52 sec elapsed"
+#> 
+#> [[3]]
+#> [1] "Section 3: 1.02 sec elapsed"
+
+```
+
+There are some great resources online on how to use `tictoc` or other packages/functions that measure code running time. Here are a few I found interesting:
+- [Jumping Rivers: Timing in R](https://www.jumpingrivers.com/blog/timing-in-r/)
+- [Alex Gossmann: 5 ways to measure running time of R code](https://www.alexejgossmann.com/benchmarking_r/)
+- [Enrico Schumann: tic and toc in R](http://enricoschumann.net/R/tictoc.htm)
+
+***
+
+One of the great things about R is that there is pretty much a package for everything. I always enjoy learning about useful, fun, or cool-but-useless packages and functions. :wink:
