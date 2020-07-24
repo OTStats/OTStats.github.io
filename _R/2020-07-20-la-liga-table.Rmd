@@ -1,6 +1,6 @@
 ---
 title: "2020 La Liga Table"
-date: 2020-07-13
+date: 2020-07-20
 category: r
 tags: [r, football]
 ---
@@ -11,10 +11,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Yesterday was the final matchday of the 2019/20 La Liga season. Real Madrid claimed their 34th La Liga title, Atleti qualify for the UCL for the 8th consecutive season, and Espanyol are back to la Segunda after 27 seasons in Spain's top-flight.
 
+Let's sum up this season with some data cleaning. 
 
 ***
 
-Let's sum up this season with some data cleaning 
 There are plenty of quality resources online demonstrating how to clean match fixtures to create a league tables for completed soccer seasons:
 
 - James Curleys: [Spanish La Liga Dataset](https://rpubs.com/jalapic/laliga)
@@ -87,12 +87,12 @@ Let's now create a traditional league table for the end of the season:
 table_1 <- liga %>% 
   group_by(team) %>% 
   summarise(MP = n(), 
-            W = sum(result == "W"), 
-            D = sum(result == "D"), 
-            L = sum(result == "L"), 
-            GF = sum(teamGoal), 
-            GA = sum(oppGoal), 
-            GD = GF - GA, 
+            `Record (W-D-L)` = str_c(sum(result == "W"), 
+                                     sum(result == "D"), 
+                                     sum(result == "L"), 
+                                     sep = "-"), 
+            `GF-GA` = str_c(sum(teamGoal), sum(oppGoal), sep = "-"),  
+            GD = sum(teamGoal) - sum(oppGoal), 
             Pts = sum(result_points)) %>% 
   arrange(desc(Pts))
 
@@ -156,46 +156,52 @@ Venga vamos! Tenemos la final tabla de la temporada! We have a final league tabl
 
 ```{r message=FALSE, warning=FALSE}
 la_liga_table <- function(matches){
-table_1 = matches %>% 
-  group_by(team) %>% 
-  summarise(MP = n(), 
-            W = sum(result == "W"), 
-            D = sum(result == "D"), 
-            L = sum(result == "L"), 
-            GF = sum(teamGoal), 
-            GA = sum(oppGoal), 
-            GD = GF - GA, 
-            Pts = sum(result_points)) %>% 
-  arrange(desc(Pts))
-
-
-team_ties <- table_1 %>% 
-  group_by(Pts) %>% 
-  filter(n() > 1) %>% 
-  mutate(id = cur_group_id()) %>% 
-  ungroup() %>% 
-  select(team, id)
-
-tie_break_table = team_ties %>% 
-  rename(team_id = id) %>% 
-  inner_join(matches, by = "team") %>% 
-  inner_join(team_ties %>% rename(opponent = team, opponent_id = id), by = "opponent") %>% 
-  filter(team_id == opponent_id) %>% 
-  mutate(game_goal_diff = teamGoal - oppGoal) %>% 
-  group_by(team_id, team) %>% 
-  summarise(tie_break_pts = sum(result_points), 
-            tie_break_gd = sum(game_goal_diff), 
-            .groups = "drop") %>% 
-  arrange(team_id, tie_break_pts, tie_break_gd) %>% 
-  select(team, tie_break_pts, tie_break_gd)
-
-final_table = table_1 %>% 
-  left_join(tie_break_table, by = "team") %>% 
-  arrange(desc(Pts), desc(tie_break_pts), desc(tie_break_gd), desc(GD), desc(GF)) %>% 
-  mutate(Rank = row_number()) %>% 
-  select(Rank, everything(), -tie_break_pts, -tie_break_gd)
-
-return(final_table)
+  table_1 = matches %>% 
+    group_by(team) %>% 
+    summarise(MP = n(), 
+              summarise(MP = n(), 
+                        `Record (W-D-L)` = str_c(sum(result == "W"), 
+                                                 sum(result == "D"), 
+                                                 sum(result == "L"), 
+                                                 sep = "-"), 
+                        `GF-GA` = str_c(sum(teamGoal), sum(oppGoal), sep = "-"),  
+                        GD = sum(teamGoal) - sum(oppGoal), 
+                        Pts = sum(result_points)) %>% 
+                Pts = sum(result_points)) %>% 
+    arrange(desc(Pts))
+  
+  
+  team_ties = table_1 %>% 
+    group_by(Pts) %>% 
+    filter(n() > 1) %>% 
+    mutate(id = cur_group_id()) %>% 
+    ungroup() %>% 
+    select(team, id)
+  
+  tie_break_table = team_ties %>% 
+    rename(team_id = id) %>% 
+    inner_join(matches, by = "team") %>% 
+    inner_join(team_ties %>% rename(opponent = team, opponent_id = id), by = "opponent") %>% 
+    filter(team_id == opponent_id) %>% 
+    mutate(game_goal_diff = teamGoal - oppGoal) %>% 
+    group_by(team_id, team) %>% 
+    summarise(tie_break_pts = sum(result_points), 
+              tie_break_gd = sum(game_goal_diff), 
+              .groups = "drop") %>% 
+    arrange(team_id, tie_break_pts, tie_break_gd) %>% 
+    select(team, tie_break_pts, tie_break_gd)
+  
+  final_table = table_1 %>% 
+    left_join(tie_break_table, by = "team") %>% 
+    arrange(desc(Pts), 
+            desc(tie_break_pts), 
+            desc(tie_break_gd), 
+            desc(GD), 
+            desc(GF)) %>% 
+    mutate(Rank = row_number()) %>% 
+    select(Rank, everything(), -tie_break_pts, -tie_break_gd)
+  
+  return(final_table)
 }
 ```
 

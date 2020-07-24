@@ -1,0 +1,105 @@
+---
+title: "beepr, pacman, tictoc: My favorite lesser known R packages"
+date: 2020-07-24
+category: r
+tags: [r]
+---
+
+
+
+A few week's ago, [RWeekly](https://rweekly.org/) featured Erin Grand's post: [Twitter's Favorite Lesser Known Packages](https://eringrand.github.io/fave_r_functions/). 
+There was a plethora of responses where R-users packages/functions that they have found to be useful. I was inspired to and wanted to share a few of my favorites.
+
+### `{beepr}`
+
+One of my favorite R packages actually only has two functions. `beepr` is a package that plays notification sounds. I often add `beep()` to the end of long scripts and jobs running in the background. Instead of checking my RStudio session every so often I can simply wait for my computer to *ping*. 
+
+Actually, on a few occasions I've used R as a timer:
+```
+library(beepr)
+
+# Set a one minute timer
+Sys.sleep(60); beep()
+```
+
+Of course, there are other packages with similar utility. [This StackOverflow question](https://stackoverflow.com/questions/3365657/is-there-a-way-to-make-r-beep-play-a-sound-at-the-end-of-a-script) includes various other packages, functions, and snippets that provide different notification methods.
+
+### `{pacman}`
+
+`pacman` is a package that I found courtesy of John Burn-Murdoch. 
+
+The package has many useful functions, but I have found the most use out of `p_load()`. `p_load` is a wrapper function for base functions `library` and `require`. Instead of starting a script with `install.packages()` and a long list of `library()` commands, `p_load()` checks to see if the packages are installed, and attempts to install those that aren't already from CRAN.
+
+As an example, I could replace this:
+```
+# Install Packages
+install.packages(c("dplyr", "tidyr", "forcats", "readr", "ggplot2", "lubridate"))
+
+# Load libraries
+library(dplyr)
+library(tidyr)
+library(forcats)
+library(readr)
+library(ggplot2)
+library(lubridate)
+```
+
+With this:
+```
+# Install pacman, if necessary
+if(!require(pacman)) install.packages("pacman")
+
+pacman::p_load(dplyr, tidyr, forcats, readr, ggplot2, lubridate)
+```
+
+### `{tictoc}`
+
+Finally, `tictoc` is a package I came across online only recently. `tictoc` provides timing functions that can be nested in code. I'm getting used to using timing utilities in my code, but for now I've found the simplest application is adding `tic` and `toc` to sections of my code:
+
+``` r
+# ---- Load library
+library(tictoc)
+
+# ---- Import data
+tic("Section 1")
+print("Import data... readr... readxl... RSQLite...")
+Sys.sleep(3)
+toc(log = TRUE)
+#> Section 1: 3.02 sec elapsed
+
+# ---- Data cleaning
+tic("Section 2")
+print("Data munging, manipulation, dplyr, mutate, etc.")
+Sys.sleep(2.5)
+toc(log = TRUE)
+#> Section 2: 2.51 sec elapsed
+
+# ---- Data viz
+tic("Section 3")
+print("Something with ggplot2")
+Sys.sleep(1)
+toc(log = TRUE)
+#> Section 3: 1.01 sec elapsed
+
+# View tic log summary
+# What sections took the longest?
+tic.log()
+#> [[1]]
+#> [1] "Section 1: 3 sec elapsed"
+#> 
+#> [[2]]
+#> [1] "Section 2: 2.52 sec elapsed"
+#> 
+#> [[3]]
+#> [1] "Section 3: 1.02 sec elapsed"
+
+```
+
+There are some great resources online on how to use `tictoc` or other packages/functions that measure code running time. Here are a few I found interesting:
+- [Jumping Rivers: Timing in R](https://www.jumpingrivers.com/blog/timing-in-r/)
+- [Alex Gossmann: 5 ways to measure running time of R code](https://www.alexejgossmann.com/benchmarking_r/)
+- [Enrico Schumann: tic and toc in R](http://enricoschumann.net/R/tictoc.htm)
+
+***
+
+One of the great things about R is that there is pretty much a package for everything. I always enjoy learning about useful, fun, or cool-but-useless packages and functions. :wink:

@@ -1,6 +1,6 @@
 ---
 title: "beepr, pacman, tictoc: My favorite lesser known R packages"
-date: 2020-07-13
+date: 2020-07-24
 category: r
 tags: [r]
 ---
