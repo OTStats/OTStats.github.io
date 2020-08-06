@@ -1,0 +1,68 @@
+---
+title: "Analyzing my favorite music on Spotify"
+date: 2020-08-06
+category: r
+tags: [r]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
+```
+
+
+```{r Packages and Setup}
+devtools::install_github("charlie86/spotifyr")
+# -- Load libraries
+library(tidyverse)
+library(lubridate)
+library(spotifyr)
+
+# -- Source Spotify API tokens
+source("~/Credentials/ot-spotify-credentials.R")
+
+Sys.setenv(SPOTIFY_CLIENT_ID = spotify_credentials()[[1]])
+Sys.setenv(SPOTIFY_CLIENT_SECRET = spotify_credentials()[[2]])
+
+# Retrieve Spotify access token
+access_token <- get_spotify_access_token()
+```
+
+```{r custom spotify function}
+# -- Gather Spotify audio features
+get_spotify_artist = function(spotify_artist) {
+  
+  data = get_artist_audio_features(spotify_artist) %>% 
+    as_tibble() %>% 
+    filter(str_detect(track_name, pattern = "- Live", negate = T), 
+           str_detect(album_name, pattern = "- Live", negate = T)) %>% 
+    mutate(album_release_date = ymd(album_release_date), 
+           track_name = str_to_title(track_name)) %>% 
+    unnest(available_markets) %>% 
+    filter(available_markets == "US") %>% 
+    arrange(album_release_year, track_number) %>% 
+    select(artist_name, 
+           album_images, 
+           album_release_date, 
+           danceability:tempo, 
+           time_signature, 
+           disc_number:explicit, 
+           track_name, 
+           track_number, 
+           album_name:key_mode)
+  return(data)
+}
+```
+
+
+
+```{r}
+get_spotify_artist("catfish and the bottleman") %>% 
+  glimpse()
+```
+
+# Resources
+
+- https://developer.spotify.com/dashboard/login
+- https://github.com/charlie86/spotifyr
+- https://msmith7161.github.io/what-is-speechiness/
+- https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/
