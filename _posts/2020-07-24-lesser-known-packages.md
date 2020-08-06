@@ -8,7 +8,7 @@ tags: [r]
 
 
 A few week's ago, [RWeekly](https://rweekly.org/) featured Erin Grand's post: [Twitter's Favorite Lesser Known Packages](https://eringrand.github.io/fave_r_functions/). 
-There was a plethora of responses where R-users packages/functions that they have found to be useful. I was inspired to and wanted to share a few of my favorites.
+There was a plethora of responses where R-users shared packages/functions that they have found to be useful. I was inspired to and wanted to share a few of my favorites.
 
 ### `{beepr}`
 
@@ -26,9 +26,9 @@ Of course, there are other packages with similar utility. [This StackOverflow qu
 
 ### `{pacman}`
 
-`pacman` is a package that I found courtesy of John Burn-Murdoch. 
+`pacman` is a package that I found on some random Gist. 
 
-The package has many useful functions, but I have found the most use out of `p_load()`. `p_load` is a wrapper function for base functions `library` and `require`. Instead of starting a script with `install.packages()` and a long list of `library()` commands, `p_load()` checks to see if the packages are installed, and attempts to install those that aren't already from CRAN.
+The package has many useful functions, but I have found the most use out of `p_load()`. `p_load` is a wrapper function for base functions `library` and `require`. Instead of starting a script with `install.packages()` and a long series of `library()` commands, `p_load()` checks to see if the packages are installed, and attempts to install those that aren't already from CRAN.
 
 As an example, I could replace this:
 ```
@@ -51,6 +51,8 @@ if(!require(pacman)) install.packages("pacman")
 
 pacman::p_load(dplyr, tidyr, forcats, readr, ggplot2, lubridate)
 ```
+
+This is very similar to the `needs` package, which I've noticed that John Burn-Murdoch uses for the majority of his scripts.
 
 ### `{tictoc}`
 
