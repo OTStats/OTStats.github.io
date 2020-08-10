@@ -53,6 +53,22 @@ get_spotify_artist = function(spotify_artist) {
 }
 ```
 
+```{r}
+install.packages("ggimage")
+library(ggimage)
+
+music %>% 
+  unnest(cols = album_images) %>% 
+  filter(height == 300) %>% 
+  distinct(artist_name, url, album_release_year, album_name) %>% 
+  ggplot(aes(x = album_release_year, y = 1)) + 
+  geom_image(aes(image = url), size = .2) + 
+  scale_x_continuous(breaks = 2008:2020) + 
+  ylim(c(.8, 1.2)) + 
+  facet_wrap(vars(artist_name))
+```
+
+
 
 
 ```{r}
