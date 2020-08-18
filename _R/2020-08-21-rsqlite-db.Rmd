@@ -1,6 +1,6 @@
 ---
 title: "SQLite DB in R"
-date: 2020-07-22
+date: 2020-08-21
 category: r
 tags: [r]
 ---
@@ -8,23 +8,36 @@ tags: [r]
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+In my current role at MNPS, I 
 
-
-```{r}
+```{r libraries, messages=FALSE}
 # ---- Load libraries
 library(tidyverse)
 library(dbplyr)
 library(RSQLite)
+```
 
+It's pretty easy to create a local SQLite database in R.
+```{r create db}
 db <- "my-db.sqlite"
 conn <- dbConnect(drv = SQLite(), dbname = db)
+```
 
+It's quite simple write tables to your DB. 
+In the `dbWriteTable` command you communicate with the DB connection, add the name of the table, and the data to write to the DB.
+
+```{r}
 # Write data to connection
 dbWriteTable(conn, "cars", mtcars)
+```
 
+```{r}
 # View tables in connection
 src_dbi(conn)
+```
 
+Of course, it's always important to disconnect from the database when you're done.
+```{r}
 # # Disconnect from DB
 DBI::dbDisconnect(conn)
 
