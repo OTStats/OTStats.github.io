@@ -1,0 +1,13 @@
+
+Reference: [SO question](https://stackoverflow.com/questions/35158708/how-to-set-default-template-for-new-r-files-in-rstudio)
+
+```
+snippet
+    # Author:
+    # Date: `r paste(date())`
+    # --------------
+    # Author:
+    # Date:
+    # Modification:
+    # --------------
+```
