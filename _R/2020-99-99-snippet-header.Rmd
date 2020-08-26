@@ -1,6 +1,8 @@
 
-Reference: [SO question](https://stackoverflow.com/questions/35158708/how-to-set-default-template-for-new-r-files-in-rstudio)
-
+Reference: 
+  - [SO question](https://stackoverflow.com/questions/35158708/how-to-set-default-template-for-new-r-files-in-rstudio)
+  - [Jake Daniels blog](https://datacritics.com/2019/01/28/rstudio-snippets/)
+  
 ```
 snippet
     # Author:
