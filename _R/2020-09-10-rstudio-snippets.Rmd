@@ -1,6 +1,6 @@
 ---
 title: "RStudio Code Snippets: for the basic stuff"
-date: 2020-99-99
+date: 2020-09-10
 category: r
 tags: [r]
 ---
@@ -12,10 +12,10 @@ But here I was almost two years after learning about snippets and I never create
 Until now.
 
 Turns out the greatest motivation for creating customized snippets came from a [StackOverflow post](https://stackoverflow.com/questions/35158708/how-to-set-default-template-for-new-r-files-in-rstudio) on how to set a default template for new R files in RStudio. 
-This had always been an area where I have always been inconsistent. 
+I have typically written some sort of heading to my R, SQL, Python, and SPSS scripts. 
 Ever since I started my professional career I've made an effort to have comprehensive code structure. 
-Roughly speaking, my scripts include a header, commented purpose section, a section where installing/loading packages at the top of the script, then I dive into my cleaning and data analysis. 
-The layouts of my headings and purpose sections have been inconsistent, to say the least... 
+Roughly speaking my scripts include a header and commented purpose section, a section where installing/loading packages at the top of the script, then I dive into my cleaning and/or data analysis. 
+The layouts of my headings and purpose sections have been, to say the least, inconsistent. 
 
 I was motivated further by [Jake Daniels' blog on snippets](https://datacritics.com/2019/01/28/rstudio-snippets/) where he described writing a simple snippet for loading R packages (which he cleverly named the snippet `usual suspects`). 
 These examples were simple enough and provided enough utility for me to 
