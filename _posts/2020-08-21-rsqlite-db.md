@@ -7,9 +7,7 @@ tags: [r]
 
 A simple tutorial to creating a SQLite database in R.
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 # Motivation
 In my current role at MNPS, I've dealt with massive flat files in various formats: CSV's, text files, and _a lot_ SAVs. ^[For those who are unfamiliar, SAVs are SPSS data files. SAVs are tricky, and I have a lot to say about SPSS after, but I'll save this for another day.] 
 After a few weeks of reading data into R via `{readr}`, `data.table::fread`, and `{haven}`^[I personally prefer using `{haven}` over `{foreign}` because it's part of the tidyverse.] I started to lose patience waiting for files to load. 
@@ -23,41 +21,68 @@ I found that it's actually quite simple to create a database in R.
 There were some great examples (list examples here) that led me here. 
 This process utilizes the `{dbplyr}` and `{RSQLite}` packages. 
 
-```{r libraries, messages=FALSE}
+
+{% highlight r %}
 # ---- Load libraries
 library(dbplyr)
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## 
+## Attaching package: 'dbplyr'
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## The following objects are masked from 'package:dplyr':
+## 
+##     ident, sql
+{% endhighlight %}
+
+
+
+{% highlight r %}
 library(RSQLite)
-```
+{% endhighlight %}
 
 The actual creation of the local SQLite database is pretty easy.
-```{r create db}
+
+{% highlight r %}
 db <- "my-db.sqlite"  # This will be my database name
 conn <- dbConnect(drv = SQLite(), dbname = db)
-```
+{% endhighlight %}
 
 Next up we can write tables to our database. 
 In the `dbWriteTable` command you communicate with the database connection, add the name of the table, and the data to write to the DB.
 
-```{r}
+
+{% highlight r %}
 # Write `mtcars` data to our DB named "cars"
 dbWriteTable(conn, "cars", mtcars)
-```
+{% endhighlight %}
 
 Once we have multiple tables in our database, I've found `src_dbi(conn)` to be helpful to see all the tables in the connection.
-```{r}
+
+{% highlight r %}
 # View tables in connection
 src_dbi(conn)
-```
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## src:  sqlite 3.30.1 [my-db.sqlite]
+## tbls: cars
+{% endhighlight %}
 
 Finally, it's always important to disconnect from the database when you're done.
-```{r}
+
+{% highlight r %}
 # # Disconnect from DB
 DBI::dbDisconnect(conn)
-```
+{% endhighlight %}
 
-```{r, include=FALSE}
-# --- Other commands
-# copy_to(my_db, plots)
-# dbRemoveTable(conn, "sqlite_stat4")
-# copy_to(conn, demo)
-```
+

@@ -27,7 +27,7 @@ snippet heading
     # ${1:scriptname}.R
     # ${2:scripttitle}
     # Author:
-    # Date: `r paste(date())`
+    # Date: Fri Sep 11 12:04:02 2020
     # Purpose:
     # --------------
 
