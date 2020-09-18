@@ -8,7 +8,7 @@ I'm a data anlayst at Metro Nashville Public Schools. My position is funded by a
 ## Background
 I received my undergraduate degree in mathematics and statistics from the University of Wisconsin-Whitewater, where I also competed on the men's soccer team. After a brief stint working on a data quality/collection team in the sports industry, I transitioned into a data analytics/reporting position in E-commerce at Kohl's on the digital vendor marketing team. In August 2019, my fiance and I moved from Milwaukee to Nashville to flee the Wisconsin winters and experience something new. 
 
-My professional interests include statistics, data analysis, and R-programming. I also enjoy playing/watching/blogging-about soccer; I'm a huge fan of Spanish soccer. Two weeks into my coronavirus quarantine my neighbor convinced me to buy a pair of rollerblades, and I've been skating obsessively. When I'm not outside or traveling, you can find me reading or researching random topics.
+My professional interests include statistics, data analysis, and R-programming. Out of the office, I enjoy playing/watching/blogging-about soccer; I'm a huge fan of Spanish soccer. Two weeks into my coronavirus quarantine my neighbor convinced me to buy a pair of rollerblades, and I've been skating obsessively since. When I'm not outside or traveling, you can find me reading or researching random topics.
 
 
 Links
@@ -25,12 +25,11 @@ My email address is octhompson19(AT)gmail.com.
 
 Also feel free to get in touch with me on LinkedIn and Twitter. 
 
-
 This Site
 =====
 
 The structure of this site is inspired by [David Robinson's blog](http://varianceexplained.org/).
 
-It's powered by [Jekyll](http://jekyllrb.com/) using the [Minimal Mistakes](http://mademistakes.com/minimal-mistakes/) theme. Also motivated by David, all blog posts are compiled with [knitr](http://yihui.name/knitr/) and R markdown using [this modified script](https://github.com/otstats/otstats.github.io/blob/master/_scripts/knitpages.R).
+It's powered by [Jekyll](http://jekyllrb.com/) using the [Minimal Mistakes](http://mademistakes.com/minimal-mistakes/) theme. Also inspired by David, all blog posts are compiled with [knitr](http://yihui.name/knitr/) and R markdown using [this modified script](https://github.com/otstats/otstats.github.io/blob/master/_scripts/knitpages.R).
 
 All views and opinions are my own and do not represent my employer.
