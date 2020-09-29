@@ -75,6 +75,20 @@ music %>%
 get_spotify_artist("catfish and the bottleman") %>% 
   glimpse()
 ```
+# Favorite Artists
+
+- Mumford & Sons
+- The 1975
+- Catfish and the Bottlemen
+- The Struts
+- Luke Combs
+- The Black Keys
+- The White Stripes
+- Circa Waves
+- John Mayer
+- Kid Cudi
+- Phoenix 
+- The Snuts
 
 # Resources
 
