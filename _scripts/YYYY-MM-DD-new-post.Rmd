@@ -1,0 +1,15 @@
+---
+title: "New Post"
+date: YYYY-MM-DD
+category: cat
+tags: [tag1, tag2, tag3]
+---
+
+Quick description about the post...
+
+***
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
+```
+
