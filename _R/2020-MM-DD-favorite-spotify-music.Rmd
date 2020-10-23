@@ -1,6 +1,6 @@
 ---
 title: "Analyzing my favorite music on Spotify"
-date: 2020-08-06
+date: 2020-MM-DD
 category: r
 tags: [r]
 ---
