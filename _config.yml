@@ -64,17 +64,16 @@ author:
   #  - label: "Website"
   #    icon: "fas fa-fw fa-link"
   #    url: "https://"
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/otstats"
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      url: "https://github.com/otstats"
     - label: "LinkedIn"
       icon: "fab fa-fw fa-linkedin"
       url: "https://www.linkedin.com/in/owen-thompson/"
-
-
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/otstats"
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/otstats"
+      
 #footer:
 #  links:
 #    - label: "Twitter"
