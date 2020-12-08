@@ -44,3 +44,24 @@ rodgers %>%
   ggplot(aes(x = pass_length)) + 
   geom_bar()
   ```
+
+```{r}
+library(nflfastR)
+library(furrr)  # required for parallel processing for `nflfastR::fast_scraper`
+gb_2020 <- fast_scraper_schedules(2020) %>% 
+  filter(away_team == "GB" | home_team == "GB") %>% 
+  pull(game_id) %>% 
+  fast_scraper(pp = TRUE)
+
+gb_2020 %>% 
+  filter(passer_player_name == "A.Rodgers", 
+         touchdown == 1)
+
+
+rodgers %>% 
+  group_by(receiver) %>% 
+  summarize(n_seasons = n_distinct(season), 
+            seasons = str_c(min(season), "-", max(season)), 
+            touchdowns = n()) %>% 
+  arrange(desc(touchdowns))
+  ```
