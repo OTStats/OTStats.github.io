@@ -1,0 +1,46 @@
+---
+title: "New Post"
+date: 2020-12-08
+category: cat
+tags: [tag1, tag2, tag3]
+---
+
+Quick description about the post...
+
+***
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
+```
+
+```{r}
+# ---- Load libraries
+library(tidyverse)
+
+read_pbp_rds <- function(year){
+  readRDS(url(glue::glue('https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{year}.rds')))
+}
+
+doParallel::registerDoParallel()
+all_pbp <- 2000:2019 %>% 
+  purrr::map_dfr(read_pbp_rds)
+
+all_pbp %>% 
+  filter(passer_player_name == "A.Rodgers", 
+         touchdown == 1) %>% 
+  count(season, season_type) %>% 
+  pivot_wider(names_from = "season_type", values_from = "n")
+
+
+rodgers <- all_pbp %>% 
+  filter(passer_player_name == "A.Rodgers", 
+         touchdown == 1)
+
+rodgers %>% 
+  ggplot(aes(x = td_prob)) + 
+  geom_histogram(binwidth = .05)
+
+rodgers %>% 
+  ggplot(aes(x = pass_length)) + 
+  geom_bar()
+  ```
