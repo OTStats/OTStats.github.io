@@ -43,9 +43,10 @@ rodgers %>%
 rodgers %>% 
   ggplot(aes(x = pass_length)) + 
   geom_bar()
-  ```
+```
 
 ```{r}
+install.packages(c("nflfastR", furrr))
 library(nflfastR)
 library(furrr)  # required for parallel processing for `nflfastR::fast_scraper`
 gb_2020 <- fast_scraper_schedules(2020) %>% 
