@@ -2,16 +2,17 @@ library(tidyverse)
 library(jsonlite)
 library(lubridate)
 
-part_a <- fromJSON("~/Downloads/MyData/StreamingHistory0.json", flatten = TRUE)
-part_b <- fromJSON("~/Downloads/MyData/StreamingHistory1.json")
+streaming_part_a <- fromJSON("~/Downloads/MyData/StreamingHistory0.json", flatten = TRUE)
+streaming_part_b <- fromJSON("~/Downloads/MyData/StreamingHistory1.json", flatten = TRUE)
 
-spotify <- bind_rows(part_a, part_b) %>% 
+spotify <- bind_rows(streaming_part_a, streaming_part_b) %>% 
   as_tibble() %>% 
   mutate_at("endTime", ymd_hm) %>% 
   mutate(endTime = endTime - hours(6)) %>% 
   mutate(date = floor_date(endTime, "day") %>% as_date, 
          seconds = msPlayed / 1000, 
          minutes = seconds / 60)
+
 
 spotify %>% 
   ggplot(aes(x = seconds)) + 
@@ -80,4 +81,38 @@ hours_df %>%
   summarize(minutes = sum(minutes_listened)) %>% 
   ggplot(aes(x = hour, y = minutes, color = weekday)) + 
   geom_line() 
+
+hours_df %>% 
+  mutate(day_type = if_else(weekday %in% c("Sat", "Sun"), "weekend", "weekday")) %>% 
+  group_by(day_type, hour) %>% 
+  summarize(minutes = sum(minutes_listened)) %>% 
+  ggplot(aes(x = hour, y = minutes, color = day_type)) + 
+  geom_line() 
   # facet_grid(.~weekday)
+
+
+# ------.
+
+
+music <- spotify %>% 
+  filter(str_detect(artistName, "1975|Catfish|Machine Gun")) %>% 
+  janitor::clean_names()
+
+music_feat_raw <- music %>% 
+  distinct(artist_name) %>% 
+  pull(artist_name) %>% 
+  map_df(~get_spotify_artist(.))
+music_feat <- music_feat_raw %>% 
+  group_by(artist_name, track_name) %>% 
+  filter(row_number() == 1) %>% 
+  ungroup() %>% 
+  select(artist_name, 
+         track_name, 
+         album_name, 
+         danceability:loudness, 
+         speechiness:tempo, 
+         duration_ms, 
+         explicit)
+
+music %>% 
+  left_join(music_feat) %>% View()
