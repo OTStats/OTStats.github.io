@@ -2,6 +2,7 @@ library(tidyverse)
 library(jsonlite)
 library(lubridate)
 
+
 streaming_part_a <- fromJSON("~/Downloads/MyData/StreamingHistory0.json", flatten = TRUE)
 streaming_part_b <- fromJSON("~/Downloads/MyData/StreamingHistory1.json", flatten = TRUE)
 
