@@ -1,0 +1,26 @@
+---
+title: "Disc Golf Stats"
+date: YYYY-MM-DD
+category: cat
+tags: [tag1, tag2, tag3]
+---
+
+A few months into my (2020) quarantine one of my neighbors took me disc golfing. 
+It wasn't an entirely new experience for me, as I had gone a few times when I was younger, but this time around I was interested. 
+In the days that followed I watched previous PDGA (Professional Disc Golf Association) events -- catching a glimpse of how the discs are __supposed__ to behave. 
+The next week I bought a starter pack. 
+My fascination has since continued...
+
+***
+
+As I've gone on to watch a few of the professional disc golf events I've gotten familiar with some of the pros currently at the top of the game. 
+Players such as Paul Mcbeth, Ricky Wysocki, Eagle McMahon, and Calvin Heimburg were regularly appearing in the final rounds of events. 
+I began to wonder how much these professionals have earned (specifically, their winnings from each of these tournaments; I'm sure some make a decent amount from endorsements). 
+Luckily the PDGA tracks most of this information for us. 
+The PDGA website [Player Statistics](https://www.pdga.com/players/stats) page tracks annual earnings, ratings, and points for players back to 1979. 
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
+```
