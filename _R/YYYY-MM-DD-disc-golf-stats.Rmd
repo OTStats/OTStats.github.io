@@ -24,3 +24,89 @@ The PDGA website [Player Statistics](https://www.pdga.com/players/stats) page tr
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
 ```
+
+```{r web scraping}
+library(tidyverse)
+library(rvest)
+library(xml2)
+
+
+# Read single page, rankings for 2019
+url <- "https://www.pdga.com/players/stats?Year=2019&player_Class=All&Gender=All&Bracket=All&continent=All&Country=All&StateProv=All&page=0"
+
+url %>% 
+  xml2::read_html() %>% 
+  html_node("body") %>% 
+  html_children() %>% 
+  xml2::xml_find_first("//table") %>% 
+  rvest::html_table() %>% 
+  .[[1]] %>% 
+  as_tibble()
+
+
+# -----------------. 
+
+url <- "https://www.pdga.com/players/stats?Year=2019&player_Class=All&Gender=All&Bracket=All&continent=All&Country=All&StateProv=All&page=0"
+
+num_of_records <- url %>% 
+  xml2::read_html() %>% 
+  html_node("body") %>% 
+  html_children() %>% 
+  xml2::xml_find_first("//div[contains(@class, 'view-footer')]") %>% 
+  html_children() %>% 
+  .[1] %>% 
+  as.character() %>% 
+  str_extract(., "(?<= of )(.[:digit:]+)") %>% 
+  as.numeric()
+
+# ---- determine the number of pages that would need to be read for 2019
+(num_of_records %/% 20) + 1 * ((num_of_records %% 20) != 0)
+
+install.packages("polite")
+library(polite)
+polite::bow()
+
+
+session <- bow(url)
+session %>% 
+  scrape() %>% 
+  html_node("body") %>% 
+  xml2::xml_find_first("//table") %>% 
+  html_table() %>% 
+  as_tibble()
+
+session %>% 
+  scrape() %>% 
+  html_node("body") %>% 
+  xml2::xml_find_first("//div[contains(@class, 'view-footer')]") %>% 
+  html_children() %>% 
+  as.character() %>% 
+  str_extract(., "(?<= of )(.[:digit:]+)") %>% 
+  as.numeric()
+  
+  # xml2::read_html() %>% 
+  # html_children() %>% 
+  # .[1] %>% 
+  # as.character() %>% 
+  # as.numeric()
+
+
+base = "https://www.pdga.com/players/stats?Year=2019&player_Class=All&Gender=All&Bracket=All&continent=All&Country=All&StateProv=All&page="
+
+
+
+scrape_page <- function(url) {
+  url_session = bow(url)
+  url_session %>% 
+    scrape() %>% 
+    html_node("body") %>% 
+    xml2::xml_find_first("//table") %>% 
+    html_table() %>% 
+    as_tibble()
+}
+
+str_c(base, 0:5) %>% 
+  map_df(~ scrape_page(url = .))
+
+```
+  
