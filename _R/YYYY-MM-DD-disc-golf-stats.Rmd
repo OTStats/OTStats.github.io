@@ -110,3 +110,16 @@ str_c(base, 0:5) %>%
 
 ```
   
+```{r}
+base_1 = "https://www.pdga.com/players/stats?Year="
+base_2 = "&player_Class=1&Gender=Male&Bracket=MPO&continent=All&Country=All&StateProv=All&order=Prize&sort=desc&page=0"
+
+df <- str_c(base_1, 2010:2020, base_2) %>% 
+  map_df(~ scrape_page(url = .))
+
+df %>% 
+  group_by(Name) %>% 
+  mutate(Cash = str_remove_all(Cash, "\\$|,") %>% as.numeric()) %>% 
+  summarize(total_cash = sum(Cash)) %>% 
+  arrange(desc(total_cash))
+```
