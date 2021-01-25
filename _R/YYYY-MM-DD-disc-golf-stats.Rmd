@@ -123,3 +123,16 @@ df %>%
   summarize(total_cash = sum(Cash)) %>% 
   arrange(desc(total_cash))
 ```
+
+```{r webscrape combos help}
+# Source help (https://purrr.tidyverse.org/reference/cross.html)
+df <- list(first = "www.google.com/", 
+           year = 2010:2015, 
+           second = "/page=", 
+           page = 0:5)
+
+df %>% 
+  cross() %>% 
+  map(lift(paste0)) %>% 
+  unlist()
+```
