@@ -136,3 +136,27 @@ df %>%
   map(lift(paste0)) %>% 
   unlist()
 ```
+
+
+
+## Application 
+```{r}
+# Source help (https://purrr.tidyverse.org/reference/cross.html)
+df <- list(first = "https://www.pdga.com/players/stats?Year=", 
+           year = 2010:2015, 
+           second = "&player_Class=1&Gender=Male&Bracket=MPO&continent=All&Country=All&StateProv=All&order=Prize&sort=desc&page=", 
+           page = 0:5)
+
+raw_scrape <- df %>% 
+  cross() %>% 
+  map(lift(paste0)) %>% 
+  unlist() %>% 
+  map_df(~ scrape_page(url = .)) %>% 
+  janitor::clean_names()
+
+raw_scrape %>% 
+  group_by(name) %>% 
+  mutate(cash_value = str_remove_all(cash, "\\$|,") %>% as.numeric()) %>% 
+  summarize(total_cash = sum(cash_value)) %>% 
+  arrange(desc(total_cash))
+```
