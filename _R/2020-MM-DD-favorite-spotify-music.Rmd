@@ -96,3 +96,4 @@ get_spotify_artist("catfish and the bottleman") %>%
 - https://github.com/charlie86/spotifyr
 - https://msmith7161.github.io/what-is-speechiness/
 - https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/
+- https://www.harsh17.in/blog/exploring-my-spotify-listening
