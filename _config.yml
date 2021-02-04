@@ -94,7 +94,7 @@ defaults:
       type: posts
     values:
       layout: single
-      classes: wide               # new
+      classes: wide             # new
       show_date: true           # new
       author_profile: true
       read_time: true
@@ -107,6 +107,7 @@ defaults:
       type: pages
     values:
       layout: single
+      classes: wide             # new
       author_profile: true
 
 #category_archive:
