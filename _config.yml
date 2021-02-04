@@ -94,7 +94,8 @@ defaults:
       type: posts
     values:
       layout: single
-      show_date: true           #new
+      class: wide               # new
+      show_date: true           # new
       author_profile: true
       read_time: true
       comments: true
