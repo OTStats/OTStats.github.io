@@ -14,22 +14,24 @@ My fascination has since continued...
 ***
 
 As I've gone on to watch a few of the professional disc golf events I've gotten familiar with some of the pros currently at the top of the game. 
-Players such as Paul Mcbeth, Ricky Wysocki, Eagle McMahon, and Calvin Heimburg were regularly appearing in the final rounds of events. 
+Players such as Paul Mcbeth, Ricky Wysocki, Eagle McMahon, and Calvin Heimburg were regularly appearing in the final rounds of events of the men's events, and Paige Pierce continually dominated the women's division.
 I began to wonder how much these professionals have earned (specifically, their winnings from each of these tournaments; I'm sure some make a decent amount from endorsements). 
-Luckily the PDGA tracks most of this information for us. 
-The PDGA website [Player Statistics](https://www.pdga.com/players/stats) page tracks annual earnings, ratings, and points for players back to 1979. 
+Luckily the PDGA, the main governing body of professional disc golf, tracks most of this information. 
+The PDGA website [Player Statistics](https://www.pdga.com/players/stats) page tracks annual earnings, ratings, and points for players for all PDGA-sanctioned events back to 1979. 
+There didn't appear to be any convenient way for me to compare these player's earnings over time so I saw this as an opportunity to practice webscraping.
 
-
+***
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
 ```
-
-```{r web scraping}
+Let's start by just scraping a single page to understand the structure of the webpage (i.e. find the table within the HTML code). 
+It took me about an hour to remind myself of how to use inspect to find the breadcrumb path to the html table, and I decided against including documentation about the process here. a) because I didn't want to, b) I don't remember, c) there are plenty of very useful tutorials already online.
+```{r load libraries}
 library(tidyverse)
 library(rvest)
 library(xml2)
-
+library(polite)
 
 # Read single page, rankings for 2019
 url <- "https://www.pdga.com/players/stats?Year=2019&player_Class=All&Gender=All&Bracket=All&continent=All&Country=All&StateProv=All&page=0"
@@ -42,8 +44,10 @@ url %>%
   rvest::html_table() %>% 
   .[[1]] %>% 
   as_tibble()
+```
 
 
+```{r}
 # -----------------. 
 
 url <- "https://www.pdga.com/players/stats?Year=2019&player_Class=All&Gender=All&Bracket=All&continent=All&Country=All&StateProv=All&page=0"
@@ -62,8 +66,7 @@ num_of_records <- url %>%
 # ---- determine the number of pages that would need to be read for 2019
 (num_of_records %/% 20) + 1 * ((num_of_records %% 20) != 0)
 
-install.packages("polite")
-library(polite)
+
 polite::bow()
 
 
