@@ -1,0 +1,98 @@
+---
+title: "Riddler Classic 2020-03-27: Rolling Dice"
+date: 2020-04-01
+category: cat
+tags: [rstats]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
+```
+
+# The Riddle
+> You start with a fair 6-sided die and roll it six times, recording the results of each roll. You then write these numbers on the six faces of another, unlabeled fair die. For example, if your six rolls were 3, 5, 3, 6, 1 and 2, then your second die wouldn’t have a 4 on it; instead, it would have two 3s.
+> 
+> Next, you roll this second die six times. You take those six numbers and write them on the faces
+of yet another fair die, and you continue this process of generating a new die from the previous one.
+> 
+> Eventually, you’ll have a die with the same number on all six faces. What is the average number of rolls it will take to reach this state?
+> 
+> Extra credit: Instead of a standard 6-sided die, suppose you have an N-sided die, whose sides are numbered from 1 to N. What is the average number of rolls it would take until all N sides show the same number?
+
+### Create a baseline function
+First let's create a function simulating the process described above, rolling a 6-sided fair die until all sides of the die are the same number. We'll set the default to 6 sides.
+
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+
+n_rolls_to_single_number = function(sides = 6) {
+  die = sample(x = 1:sides,
+               size = sides,
+               replace = TRUE)
+  n_rolls = 1
+  while (length(unique(die)) > 1) {
+    die = sample(x = die,
+                 size = sides,
+                 replace = TRUE)
+    n_rolls = n_rolls + 1
+  }
+  return(n_rolls)
+}
+
+```
+
+
+### Run simulations
+We'll now create a table for sample dice with 4, 5, 6, ..., 10, 11, 12 and 20, 30, 40, and 50 sides 100,000 times each. This will take a little bit of time -- to see how long, I wrapped the `system.time()` function around so I know exactly how long. 
+
+After I run my simulations, I could plot the data to get an idea what the distributions look like.
+
+**Note:** I included the code, and decided against running it because it took a bit of time and I thought I could better visualize the data. As one would expect, there was significantly more variance in the number of rolls it took to get the same number on all sides for dice with more sides than those with fewer.
+
+```{r}
+set.seed(2020)
+# --- Create table for simulations
+system.time(sims <- tibble(n_sides = rep(c(4:12, seq(20, 50, by = 10)), each = 100000)) %>% 
+  rowwise() %>% 
+  mutate(n_rolls = n_rolls_to_single_number(sides = n_sides)))
+
+# # --- Plot all simulations
+# ## Note: Plotting 1.3 millions data points is pretty intensive....
+# sims %>% 
+#   ggplot(aes(x = n_sides, y = n_rolls)) + 
+#   geom_jitter(alpha = 0.01) + 
+#   geom_point(aes(y = mean(n_rolls)), color = "red") + 
+#   scale_x_log10() + 
+#   expand_limits(y = 500) + 
+#   geom_smooth(method = "lm") + 
+#   labs(x = "# sides on\na die", 
+#        y = "Number of rolls", 
+#        title = "Number of rolls until all sides of N-sided die are the same number")
+```
+
+We can summarize the average number of rolls for each __N__-sided die:
+```{r}
+# --- Summarise mean rolls to same number on all sides by N-sided dice
+mean_rolls <- sims %>% 
+  group_by(n_sides) %>% 
+  summarise(mean_rolls = mean(n_rolls))
+
+mean_rolls
+```
+
+And when we plot the average number of rolls against the number of sides, we find a linear relationship:
+```{r}
+# --- Plot mean rolls by N-sides
+mean_rolls %>% 
+  ggplot(aes(x = n_sides, y = mean_rolls)) + 
+  geom_point()
+```
+
+We can then fit a model to better describe the relationship between the average number of rolls and __N__:
+```{r}
+# ---- Fit a model:
+lm(n_rolls ~ n_sides, data = sims)
+```
+
+So, the mean number of rolls to get the same number on all sides of an N-sided die will be: 1.98 * __N__ - 2.24. __Voila__!
