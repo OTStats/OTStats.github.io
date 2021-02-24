@@ -96,3 +96,119 @@ lm(n_rolls ~ n_sides, data = sims)
 ```
 
 So, the mean number of rolls to get the same number on all sides of an N-sided die will be: 1.98 * __N__ - 2.24. __Voila__!
+
+
+```{r, include=FALSE}
+# Riddler Classic
+# From Chris Nho comes a question of rolling (and re-rolling) a die:
+#   
+# You start with a fair 6-sided die and roll it six times, recording the results of each roll. 
+# You then write these numbers on the six faces of another, unlabeled fair die. For example, if 
+# your six rolls were 3, 5, 3, 6, 1 and 2, then your second die wouldn’t have a 4 on it; instead, 
+# it would have two 3s.
+# 
+# Next, you roll this second die six times. You take those six numbers and write them on the faces 
+# of yet another fair die, and you continue this process of generating a new die from the previous one.
+# 
+# Eventually, you’ll have a die with the same number on all six faces. What is the average number 
+# of rolls it will take to reach this state?
+# 
+# Extra credit: Instead of a standard 6-sided die, suppose you have an N-sided die, whose sides are 
+# numbered from 1 to N. What is the average number of rolls it would take until all N sides show the 
+# same number?
+
+
+set.seed(321)
+sides <- 6
+simulations <- 100000
+
+n_rolls_to_single_number = function() {
+  die = sample(x = 1:sides,
+               size = sides,
+               replace = TRUE)
+  n_rolls = 1
+  while (length(unique(die)) > 1) {
+    die = sample(x = die,
+                 size = sides,
+                 replace = TRUE)
+    n_rolls = n_rolls + 1
+  }
+  return(n_rolls)
+}
+
+trials <- rep(NA, simulations)
+
+for (i in 1:simulations) {
+  trials[i] = n_rolls_to_single_number()
+}
+
+mean(trials)
+
+library(dplyr)
+library(ggplot2)
+tibble(rolls = trials) %>% 
+  ggplot(aes(x = rolls)) + 
+  geom_histogram() + 
+  geom_vline(aes(xintercept = mean(rolls))) + 
+  theme_bw()
+
+
+# Take 2: 
+## Generalize function and run model for dice with N-sides
+set.seed(2020)
+library(tidyverse)
+library(kableExtra)
+
+n_rolls_to_single_number = function(sides = 6) {
+  die = sample(x = 1:sides,
+               size = sides,
+               replace = TRUE)
+  n_rolls = 1
+  while (length(unique(die)) > 1) {
+    die = sample(x = die,
+                 size = sides,
+                 replace = TRUE)
+    n_rolls = n_rolls + 1
+  }
+  return(n_rolls)
+}
+
+# --- Create table for simulations
+system.time(sims <- tibble(n_sides = rep(c(4:12, seq(20, 50, by = 10)), each = 100000)) %>% 
+  rowwise() %>% 
+  mutate(n_rolls = n_rolls_to_single_number(sides = n_sides)))
+
+# --- Plot all simulations
+## Note: Plotting 1.3 millions data points is pretty intensive....
+sims %>% 
+  ggplot(aes(x = n_sides, y = n_rolls)) + 
+  geom_jitter(alpha = 0.01) + 
+  geom_point(aes(y = mean(n_rolls)), color = "red") + 
+  scale_x_log10() + 
+  expand_limits(y = 500) + 
+  geom_smooth(method = "lm") + 
+  labs(x = "# sides on\na die", 
+       y = "Number of rolls", 
+       title = "Number of rolls until all sides of N-sided die are the same number")
+
+
+# --- Summarise mean rolls to same number on all sides by N-sided dice
+mean_rolls <- sims %>% 
+  group_by(n_sides) %>% 
+  summarise(mean_rolls = mean(n_rolls))
+
+# --- Nice looking table
+mean_rolls %>% 
+  kable()
+
+# --- Plot mean rolls by N-sides
+mean_rolls %>% 
+  ggplot(aes(x = n_sides, y = mean_rolls)) + 
+  geom_point()
+
+# ---- Fit a model:
+lm(n_rolls ~ n_sides, data = sims)
+
+# Mean number of rolls to get the same number on all sides of an N-sided die
+# will be 1.98*N - 2.24
+```
