@@ -1,6 +1,6 @@
 ---
-  title: "Webscrape Disc Golf Stats"
-  subtitle: part
+  title: "Web scrape PDGA Stats"
+  excerpt: "In an effort to compare professional disc golfer earnings, I web scrape the PDGA website to access player prize money."
   date: YYYY-MM-DD
   category: cat
   tags: [sports, rstats]
