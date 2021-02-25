@@ -1,8 +1,8 @@
 ---
-title: "Web scrape PDGA Stats"
+title: "Webscrape Disc Golf Stats"
 excerpt: "In an effort to compare professional disc golfer earnings, I web scrape the PDGA website to access player prize money."
 date: 2021-02-25
-tags: [sports, rstats]
+tags: [sports, r]
 ---
 
 A few months into my (2020) quarantine one of my neighbors took me disc golfing. It wasn't an entirely new experience for me, as I had gone a few times when I was younger, but this time around it really peaked my interest. In the days that followed I watched previous PDGA (Professional Disc Golf Association) events -- catching a glimpse of how the discs are *supposed* to be thrown. The next week I bought a starter pack, and my fascination has since continued.
@@ -200,6 +200,7 @@ pdga_raw_scrape %>%
 |J. Conrad    |$119,402   |
 |N. Sexton    |$117,217   |
 
+Or we can look at annual earnings for the players that have won the most money between 2015 and 2020:
 
 
 {% highlight r %}

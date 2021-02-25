@@ -119,8 +119,9 @@ pdga_raw_scrape %>%
   knitr::kable("pipe")
 ```
 
+Or we can look at annual earnings for the players that have won the most money between 2015 and 2020:
 
-```{r}
+```{r, fig.width=5}
 pdga_raw_scrape %>% 
   inner_join(pdga_raw_scrape %>% 
                group_by(name) %>% 
