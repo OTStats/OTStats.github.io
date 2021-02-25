@@ -1,9 +1,8 @@
 ---
 title: Plotting Manager Elo Ratings by Club Part 1
 date: 2019-03-12
-tags: 
-  - R
-  - football
+category: r
+tags: [r, football]
 ---
 
 Prior to managing Manchester United, José Mourinho had won the league in the second season with every club prior. The 2016-17 season saw Mourinho's United finish 6th in the league (United did however win the UEFA Europa league). Many expected José would do what he's always done in his second seasons with every club: adapt, dominate, become champions. Despite improving his side, United finished runners up to Pep Guardiola's unstoppable Manchester City. José undoubtedly improves his squads in two seasons however after that second season his sides taper off. [John Burn Murdoch](https://twitter.com/jburnmurdoch) shared a great article and data viz [on twitter](https://twitter.com/jburnmurdoch/status/1075071315487395840?ref_src=twsrc%5Etfw):

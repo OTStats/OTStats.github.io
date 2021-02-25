@@ -2,6 +2,8 @@
 title: "Webscrape Disc Golf Stats"
 excerpt: "In an effort to compare professional disc golfer earnings, I web scrape the PDGA website to access player prize money."
 date: 2021-02-25
+output: html_document
+category: r
 tags: [sports, r]
 ---
 
@@ -231,7 +233,7 @@ pdga_raw_scrape %>%
         axis.text.x = element_text(size = 8))
 {% endhighlight %}
 
-![center](/figs/2021-02-25-disc-golf-stats/unnamed-chunk-3-1.png)
+![center](/figs/2021-02-25-disc-golf-stats/annual earnings plot-1.png)
 
 ------------------------------------------------------------------------
 

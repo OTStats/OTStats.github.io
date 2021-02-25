@@ -2,6 +2,8 @@
 title: "Webscrape Disc Golf Stats"
 excerpt: "In an effort to compare professional disc golfer earnings, I web scrape the PDGA website to access player prize money."
 date: 2021-02-25
+output: html_document
+category: r
 tags: [sports, r]
 ---
 
@@ -69,7 +71,7 @@ Using the `cross` function from the `purrr` package, and a little code snippet i
 
 *Note: For a simple use case, I decided to use two predefined filters to select the men's open division. I have future iterations in mind, which I'll about later.*
 
-```{r}
+```{r scrape pdga stats from 2015 through 2020}
 # -- Load libraries
 library(tidyverse)
 library(polite)
@@ -121,7 +123,7 @@ pdga_raw_scrape %>%
 
 Or we can look at annual earnings for the players that have won the most money between 2015 and 2020:
 
-```{r, fig.width=5}
+```{r annual earnings plot}
 pdga_raw_scrape %>% 
   inner_join(pdga_raw_scrape %>% 
                group_by(name) %>% 

@@ -2,9 +2,7 @@
 title: Analyzing UWW Men's Soccer Results
 subtitle: A web scraping exercise
 date: 2018-12-05
-tags: 
-  - R
-  - football
+tags: [r, football, sports]
 ---
 # Introduction
 

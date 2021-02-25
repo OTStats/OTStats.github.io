@@ -1,9 +1,8 @@
 ---
 title: Plotting Manager Elo Ratings by Club Part 2
 date: 2019-03-13
-tags: 
-  - R
-  - football
+category: r
+tags: [r, football]
 ---
   
 # Recap
