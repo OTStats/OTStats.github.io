@@ -233,7 +233,7 @@ pdga_raw_scrape %>%
         axis.text.x = element_text(size = 8))
 {% endhighlight %}
 
-![center](/figs/2021-02-25-disc-golf-stats/annual earnings plot-1.png){ width=100% }
+![center](/figs/2021-02-25-disc-golf-stats/annual earnings plot-1.png)
 
 ------------------------------------------------------------------------
 
