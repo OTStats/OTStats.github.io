@@ -59,7 +59,7 @@ plugins:
 author:
   name   : "Owen Thompson"
   avatar : "/assets/images/OThompson-profile.jpeg"
-  bio    : "Data Analyst at Metro Nashville Public Schools, R user and statistics enthusiast."
+  bio    : "Data Analyst at Proc9, R user and statistics enthusiast."
   location: "Nashville, TN"
   links:
   #  - label: "Website"
