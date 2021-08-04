@@ -23,6 +23,18 @@ Links
 <a href="https://stackexchange.com/users/13063037"><img src="https://stackexchange.com/users/flair/13063037.png" width="208" height="58" alt="profile for OTStats on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for OTStats on Stack Exchange, a network of free, community-driven Q&amp;A sites"></a>
 
 
+<!----
+# Websites
+
++ [FiveThirtyEight](https://fivethirtyeight.com/)
++ [Pudding](https://pudding.cool/)
++ [R-bloggers](https://www.r-bloggers.com)
++ [R Weekly](https://rweekly.org)
++ [Simply Statistics](https://simplystatistics.org/)
++ [Reuters Graphics](https://graphics.reuters.com/)
++ [Chartr](https://www.chartr.co/)
+----->
+
 Contact
 =====
 My email address is octhompson19(AT)gmail.com. 
