@@ -178,7 +178,7 @@ table_1
 
 Looking good! But as I noted before, the tie-breaking rules for La Liga are unique. In other leagues around the world (e.g. the English Premier League), goal difference is the primary tie-breaker, however in Spain the first tie breaker is head-to-head results for teams with the same number of points. For example, if Valencia and Levante were to level on points but Valencia managed to beat Levante in both fixtures, Valencia would beat Levante head-to-head. Here's the full breakdown for league classification:
 
-> Rules for classification: 1) Points; 2) Head-to-head points; 3) Head-to-head goal difference; 4) Goal difference; 5) Goals scored; 6) Fair-play points (Note: Head-to-head record is used only after all the matches between the teams in question have been played)^[2]
+> Rules for classification: 1) Points; 2) Head-to-head points; 3) Head-to-head goal difference; 4) Goal difference; 5) Goals scored; 6) Fair-play points (Note: Head-to-head record is used only after all the matches between the teams in question have been played)
 
 This season there are a few teams that ended with the same number of points:
 * 60pts: Atleti and Sevilla
