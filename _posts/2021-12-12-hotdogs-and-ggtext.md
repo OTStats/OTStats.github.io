@@ -11,14 +11,13 @@ It's been a while since I written anything, so figured I'd jump into my massive 
 
 ***
   
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = TRUE)
-```
+
 
 A couple years ago I stumbled upon [Neil Allen's dataset with the annual results of Nathan's hotog eating contest](https://data.world/neilgallen/nathans-hot-dog-eating-contest-results). I've been holding onto a small snippet plotting the results since 2019, so I thought I'd finally put it to rest by sharing a fun ggplot trick I learned a couple weeks ago.
 
 Let's first take a look at the data. 
-```{r Setup}
+
+{% highlight r %}
 # -- Load libraries
 library(tidyverse)
 library(lubridate)
@@ -32,11 +31,26 @@ raw_hot_dogs <- read_csv("https://query.data.world/s/unypqzcyoeebpsaik63qleqsvik
   mutate_at("date", mdy)
 
 head(raw_hot_dogs)
-```
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## # A tibble: 6 × 5
+##   date       gender duration name                hdb
+##   <date>     <fct>     <int> <fct>             <dbl>
+## 1 2020-07-04 Men          10 Joey Chestnut      75  
+## 2 2020-07-04 Men          10 Darron Breeden     42  
+## 3 2020-07-04 Men          10 Nick Wehry         39.5
+## 4 2020-07-04 Women        10 Miki Sudo          48.5
+## 5 2020-07-04 Women        10 Larell marie Mele  18  
+## 6 2020-07-04 Women        10 Katie Prettyman    15
+{% endhighlight %}
 
 This data contains the number of hot dogs eaten by contestant per date. The fields are self explanatory, but thought I'd point out two observations: the contest is held annually on the Fourth of July, and duration (probably time in minutes) dropped from 12 to 10 in 2008. We're going to plot the number of hot dogs eaten per contestant over time, but first let's see how many records we have for each year.
 
-```{r Records by gender, per year}
+
+{% highlight r %}
 raw_hot_dogs %>% 
   ggplot(aes(x = year(date), 
              fill = gender)) + 
@@ -45,11 +59,14 @@ raw_hot_dogs %>%
   labs(x = "Year", 
        y = "", 
        title = "Number of contestants competing in the Annual Nathan's Hot Dog Eating contest")
-```
+{% endhighlight %}
+
+![center](/figs/2021-12-12-hotdogs-and-ggtext/Records by gender, per year-1.png)
 There aren't many records before the 2008 competition, and looks like the womens division started in 2011. So for the sake of completeness, I'll work with data between 2008-2020 (although it looks like there were only a few women who competed in 2020).
 
 
-```{r Plot records per year}
+
+{% highlight r %}
 plot <- raw_hot_dogs %>% 
   add_count(gender, year(date), name = "contestants_in_year") %>% 
   filter(contestants_in_year > 1 & year(date) > 2000) %>% 
@@ -61,23 +78,29 @@ plot <- raw_hot_dogs %>%
   theme_light()
 
 plot
-```
+{% endhighlight %}
+
+![center](/figs/2021-12-12-hotdogs-and-ggtext/Plot records per year-1.png)
 
 That's a good start. But let's clean up the axes and add a title.
 
 
-```{r}
+
+{% highlight r %}
 plot + 
   labs(x = "", 
        y = "Hot dogs", 
        title = "Number of dogs eaten at the annual Nathan's Hot Dog Eating Contest", 
        caption = "Nathan's Hot Dog Eating Contest results from 2007-2020\nCreated by: @OTStats | Data: Data.World @neilgallen")
-```
+{% endhighlight %}
+
+![center](/figs/2021-12-12-hotdogs-and-ggtext/unnamed-chunk-1-1.png)
 
 Not bad, but let's spice this up a bit. [Joey Chestnut](https://majorleagueeating.com/eaters/106) is well-known as the greatest eater in history. So let's highlight his records.
 
 
-```{r Add Joey Chestnut}
+
+{% highlight r %}
 plot + 
   geom_line(data = raw_hot_dogs %>% 
               filter(name == "Joey Chestnut" & year(date) > 2007), 
@@ -89,11 +112,14 @@ plot +
        title = "Number of dogs eaten at the annual Nathan's Hot Dog Eating Contest", 
        subtitle = "Joey Chestnut is consistently in a league of his own", 
        caption = "Nathan's Hot Dog Eating Contest results from 2007-2020\nCreated by: @OTStats | Data: Data.World @neilgallen")
-```
+{% endhighlight %}
+
+![center](/figs/2021-12-12-hotdogs-and-ggtext/Add Joey Chestnut-1.png)
 
 This is better, but we don't have a way to indicate that the red line is Joey Chestnut. Using the `ggtext` package, we can color "Joey Chestnut" in the subtitle to also serve as a legend. Here's how:
 
-```{r}
+
+{% highlight r %}
 library(ggtext)
 
 plot + 
@@ -111,8 +137,12 @@ plot +
        caption = "Nathan's Hot Dog Eating Contest results from 2007-2020\nCreated by: @OTStats | Data: Data.World @neilgallen") + 
   theme(plot.title = element_text(size = 14), 
         plot.subtitle = element_markdown(lineheight = 0.5))
+{% endhighlight %}
 
-```
+![center](/figs/2021-12-12-hotdogs-and-ggtext/unnamed-chunk-2-1.png)
 
 Much better. Within the`labs` ggplot layer I designated the size and color of the text within the `<span>` argument, then added `plot.subtitle = element_markdown(lineheight = 0.5)` in the `theme` layer. This is definitely one of my favorite ggplot tricks, now!
+
+### Update 2021-12-21
+I realized it would be useful to link the [`ggtext` package documentation](https://wilkelab.org/ggtext/articles/theme_elements.html), which has a ton of practical examples of incorporating text elements in ggplot labels. 
 
