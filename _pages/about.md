@@ -8,12 +8,11 @@ Background
 I received my undergraduate degree in mathematics and statistics from the University of Wisconsin-Whitewater, where I also competed on the men's soccer team. 
 After a brief stint working on a data quality/collection team in the sports industry, I transitioned into a data analytics/reporting position in E-commerce at Kohl's supporting the digital vendor marketing team. 
 In August 2019, my then girlfriend (now wife) and I moved from Milwaukee to Nashville to flee the Wisconsin winters and experience something new. 
-After a spell of consulting and working for Metro Nashville Public Schools, I'm now working as a data analyst at Proc9.
+After a spell of consulting and working for Metro Nashville Public Schools, I'm now working as a data analyst at PROC9.
 
 My professional interests include statistics, data analysis, and R-programming. 
 Out of the office, I enjoy following Spanish soccer and being active. 
-A few weeks into 2020 quarantine my neighbor introduced me to disc golf -- if I'm not at home, you can probably find me on the course. 
-When I'm not outside or traveling, you can find me reading, exploring new music, or researching random topics.
+When I'm not outside or traveling, you can find me exploring new music, or homebrewing kombucha.
 
 
 Links

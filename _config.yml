@@ -59,7 +59,7 @@ plugins:
 author:
   name   : "Owen Thompson"
   avatar : "/assets/images/image.jpeg"
-  bio    : "Data Analyst at Proc9, R user and statistics enthusiast."
+  bio    : "Data Analyst at PROC9. I'm an R user and statistics/data-viz enthusiast."
   location: "Nashville, TN"
   links:
   #  - label: "Website"
