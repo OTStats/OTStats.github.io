@@ -1,5 +1,5 @@
 ---
-title: Vinicius Minutes Breakdown
+title: "Plot Remix: Minutes Breakdown"
 subtitle: Recreate a plot for Vinicus Junior's minutes breakdown for Real Madrid
 date: 2022-05-22
 tags: [r, football, plot-remix]
@@ -32,7 +32,7 @@ To get the Real Madrid crest I used [Thomas Mock](https://twitter.com/thomas_moc
 It took a little bit of time to understand some of the parameters, but I think it was a really nice touch. 
 
 <p align="center">
-<img src ="/figs/20220521-Vinicius-Junior-minutes-breakdown.png"; width = 600>
+<img src ="/figs/20220521-Vinicius-Junior-minutes-breakdown.png">
 </p>
 
 
