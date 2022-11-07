@@ -1,5 +1,5 @@
 ---
-title: Plot Remix: Minutes Breakdown
+title: Vinicius Minutes Breakdown
 subtitle: Recreate a plot for Vinicus Junior's minutes breakdown for Real Madrid
 date: 2022-05-22
 tags: [r, football, plot-remix]
