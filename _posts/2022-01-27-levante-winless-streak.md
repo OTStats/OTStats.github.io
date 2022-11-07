@@ -6,13 +6,13 @@ tags: [r, football, dataviz]
 ---
 
 While living in Valencia I fell in love with their local footbal clubs. 
-At the time Levante were playing in Spain's second division, going on to eventually win the league and be promoted to La Liga. 
-They've since remained in La Liga but have experienced a really tough stretch of results. 
+At the time Levante were playing in Spain's second division, going on to eventually win the league and were promoted to La Liga. 
+They've since remained in La Liga and have experienced a really tough recent stretch of results. 
 
 
 2 weeks ago, Levante finally snapped their 27-game winless run. 
 They've always been a fun, high-octane team to watch, typically going toe-to-toe with their opponents. 
-I've always felt like they create and concede a ton of chances, but so I was curious how this has evolved during their winless run. 
+I've always felt like they create and concede a ton of chances, so I was curious how this has evolved during their winless run. 
 
 ---------------
 
