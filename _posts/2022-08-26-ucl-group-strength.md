@@ -1,5 +1,5 @@
 ---
-title: "Hany Mukhtar's 2022 Shots on Target"
+title: "UCL 2022 Group Strength"
 date: 2022-08-26
 tags: [r, football, dataviz]
 ---
