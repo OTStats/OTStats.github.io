@@ -10,7 +10,7 @@ After a brief stint working on a data quality/collection team in the sports indu
 In August 2019, my then girlfriend (now wife) and I moved from Milwaukee to Nashville to flee the Wisconsin winters and experience something new. 
 After a spell of consulting and working for Metro Nashville Public Schools, I'm now working as a data analyst at PROC9.
 
-My professional interests include statistics, data analysis, and R-programming. 
+My professional interests include data visualization, R-programming, and statistics. 
 Out of the office, I enjoy following Spanish soccer and being active. 
 When I'm not outside or traveling, you can find me exploring new music, or homebrewing kombucha.
 
