@@ -8,7 +8,7 @@ Background
 I received my undergraduate degree in mathematics and statistics from the University of Wisconsin-Whitewater, where I also competed on the men's soccer team. 
 After a brief stint working on a data quality/collection team in the sports industry, I transitioned into a data analytics/reporting position in E-commerce at Kohl's supporting the digital vendor marketing team. 
 In August 2019, my then girlfriend (now wife) and I moved from Milwaukee to Nashville to flee the Wisconsin winters and experience something new. 
-After a spell of consulting and working for Metro Nashville Public Schools, I'm now working as a data analyst at PROC9.
+After a spell of consulting and working for Metro Nashville Public Schools and PROC9, I'm now a Senior Data Analyst at Northwestern Mutual.
 
 My professional interests include data visualization, R-programming, and statistics. 
 Out of the office, I enjoy following Spanish soccer and being active. 
