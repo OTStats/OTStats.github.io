@@ -34,6 +34,8 @@ Some useful resources and some great examples of creative data visualization.
 + [R-bloggers](https://www.r-bloggers.com)
 + [R Weekly](https://rweekly.org)
 + [Simply Statistics](https://simplystatistics.org/)
++ [FlowingData](https://flowingdata.com/)
++ [The F5](https://thef5.substack.com/)
 
 
 Contact
