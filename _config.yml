@@ -59,7 +59,7 @@ plugins:
 author:
   name   : "Owen Thompson"
   avatar : "/assets/images/image.jpeg"
-  bio    : "Senior Data Analyst at Northwestern Mutual. I love statistics, data visualiztions, and programming in R."
+  bio    : "Senior Data Analyst at Northwestern Mutual. I enjoy statistics, data visualizations, and programming in R."
   location: "Nashville, TN"
   links:
   #  - label: "Website"
